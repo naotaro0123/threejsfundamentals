@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Three.js - Voxel Geometry - UI</title>
     <style>
-    body {
+    html, body {
+        height: 100%;
         margin: 0;
     }
     #c {
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
         display: block;
     }
     #ui {
@@ -71,8 +72,8 @@
     </div>
   </body>
 <script type="module">
-import * as THREE from './resources/threejs/r110/build/three.module.js';
-import {OrbitControls} from './resources/threejs/r110/examples/jsm/controls/OrbitControls.js';
+import * as THREE from './resources/threejs/r122/build/three.module.js';
+import {OrbitControls} from './resources/threejs/r122/examples/jsm/controls/OrbitControls.js';
 
 class VoxelWorld {
   constructor(options) {
@@ -86,9 +87,9 @@ class VoxelWorld {
   }
   computeVoxelOffset(x, y, z) {
     const {cellSize, cellSliceSize} = this;
-    const voxelX = THREE.Math.euclideanModulo(x, cellSize) | 0;
-    const voxelY = THREE.Math.euclideanModulo(y, cellSize) | 0;
-    const voxelZ = THREE.Math.euclideanModulo(z, cellSize) | 0;
+    const voxelX = THREE.MathUtils.euclideanModulo(x, cellSize) | 0;
+    const voxelY = THREE.MathUtils.euclideanModulo(y, cellSize) | 0;
+    const voxelZ = THREE.MathUtils.euclideanModulo(z, cellSize) | 0;
     return voxelY * cellSliceSize +
            voxelZ * cellSize +
            voxelX;
@@ -396,36 +397,25 @@ function main() {
     const cellZ = Math.floor(z / cellSize);
     const cellId = world.computeCellId(x, y, z);
     let mesh = cellIdToMesh[cellId];
+    const geometry = mesh ? mesh.geometry : new THREE.BufferGeometry();
+
+    const {positions, normals, uvs, indices} = world.generateGeometryDataForCell(cellX, cellY, cellZ);
+    const positionNumComponents = 3;
+    geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), positionNumComponents));
+    const normalNumComponents = 3;
+    geometry.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(normals), normalNumComponents));
+    const uvNumComponents = 2;
+    geometry.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(uvs), uvNumComponents));
+    geometry.setIndex(indices);
+    geometry.computeBoundingSphere();
+
     if (!mesh) {
-      const geometry = new THREE.BufferGeometry();
-      const positionNumComponents = 3;
-      const normalNumComponents = 3;
-      const uvNumComponents = 2;
-
-      geometry.setAttribute(
-          'position',
-          new THREE.BufferAttribute(new Float32Array(0), positionNumComponents));
-      geometry.setAttribute(
-          'normal',
-          new THREE.BufferAttribute(new Float32Array(0), normalNumComponents));
-      geometry.setAttribute(
-          'uv',
-          new THREE.BufferAttribute(new Float32Array(0), uvNumComponents));
-
       mesh = new THREE.Mesh(geometry, material);
       mesh.name = cellId;
       cellIdToMesh[cellId] = mesh;
       scene.add(mesh);
       mesh.position.set(cellX * cellSize, cellY * cellSize, cellZ * cellSize);
     }
-
-    const {positions, normals, uvs, indices} = world.generateGeometryDataForCell(cellX, cellY, cellZ);
-    const geometry = mesh.geometry;
-    geometry.getAttribute('position').setArray(new Float32Array(positions)).needsUpdate = true;
-    geometry.getAttribute('normal').setArray(new Float32Array(normals)).needsUpdate = true;
-    geometry.getAttribute('uv').setArray(new Float32Array(uvs)).needsUpdate = true;
-    geometry.setIndex(indices);
-    geometry.computeBoundingSphere();
   }
 
   const neighborOffsets = [
@@ -523,15 +513,15 @@ function main() {
   function getCanvasRelativePosition(event) {
     const rect = canvas.getBoundingClientRect();
     return {
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top,
+      x: (event.clientX - rect.left) * canvas.width  / rect.width,
+      y: (event.clientY - rect.top ) * canvas.height / rect.height,
     };
   }
 
   function placeVoxel(event) {
     const pos = getCanvasRelativePosition(event);
-    const x = (pos.x / canvas.clientWidth ) *  2 - 1;
-    const y = (pos.y / canvas.clientHeight) * -2 + 1;  // note we flip Y
+    const x = (pos.x / canvas.width ) *  2 - 1;
+    const y = (pos.y / canvas.height) * -2 + 1;  // note we flip Y
 
     const start = new THREE.Vector3();
     const end = new THREE.Vector3();

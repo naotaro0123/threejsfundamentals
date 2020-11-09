@@ -21,9 +21,10 @@
     <canvas id="c"></canvas>
   </body>
 <script type="module">
-import * as THREE from './resources/threejs/r110/build/three.module.js';
-import {OrbitControls} from './resources/threejs/r110/examples/jsm/controls/OrbitControls.js';
-import {RectAreaLightUniformsLib} from './resources/threejs/r110/examples/jsm/lights/RectAreaLightUniformsLib.js';
+import * as THREE from './resources/threejs/r122/build/three.module.js';
+import {OrbitControls} from './resources/threejs/r122/examples/jsm/controls/OrbitControls.js';
+import {RectAreaLightUniformsLib} from './resources/threejs/r122/examples/jsm/lights/RectAreaLightUniformsLib.js';
+import {RectAreaLightHelper} from './resources/threejs/r122/examples/jsm/helpers/RectAreaLightHelper.js';
 import {GUI} from '../3rdparty/dat.gui.module.js';
 
 function main() {
@@ -103,10 +104,10 @@ function main() {
       this.prop = prop;
     }
     get value() {
-      return THREE.Math.radToDeg(this.obj[this.prop]);
+      return THREE.MathUtils.radToDeg(this.obj[this.prop]);
     }
     set value(v) {
-      this.obj[this.prop] = THREE.Math.degToRad(v);
+      this.obj[this.prop] = THREE.MathUtils.degToRad(v);
     }
   }
 
@@ -125,10 +126,10 @@ function main() {
     const height = 4;
     const light = new THREE.RectAreaLight(color, intensity, width, height);
     light.position.set(0, 10, 0);
-    light.rotation.x = THREE.Math.degToRad(-90);
+    light.rotation.x = THREE.MathUtils.degToRad(-90);
     scene.add(light);
 
-    const helper = new THREE.RectAreaLightHelper(light);
+    const helper = new RectAreaLightHelper(light);
     light.add(helper);
 
     function updateLight() {

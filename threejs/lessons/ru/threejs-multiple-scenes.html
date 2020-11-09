@@ -37,24 +37,34 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Kак рисовать на всей web-странице с THREE.js" />
-<meta name="keywords" content="webgl graphics three.js" />
-<meta name="thumbnail" content="https://threejsfundamentals.org/threejs/lessons/screenshots/threejs-multiple-scenes_ru.jpg" />
+<meta name="description" content="Kак рисовать на всей web-странице с THREE.js">
+<meta name="keywords" content="webgl graphics three.js">
+<meta name="thumbnail" content="https://threejsfundamentals.org/threejs/lessons/screenshots/threejs-multiple-scenes_ru.jpg">
 
-<meta property="og:title" content="Three.js - Несколько холстов и Несколько сцен" />
-<meta property="og:type" content="website" />
-<meta property="og:image" content="https://threejsfundamentals.org/threejs/lessons/screenshots/threejs-multiple-scenes_ru.jpg" />
-<meta property="og:description" content="Kак рисовать на всей web-странице с THREE.js" />
-<meta property="og:url" content="https://threejsfundamentals.org/threejs/lessons/ru/threejs-multiple-scenes.html" />
+<meta property="og:title" content="Three.js - Несколько холстов и Несколько сцен">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://threejsfundamentals.org/threejs/lessons/screenshots/threejs-multiple-scenes_ru.jpg">
+<meta property="og:description" content="Kак рисовать на всей web-странице с THREE.js">
+<meta property="og:url" content="https://threejsfundamentals.org/threejs/lessons/ru/threejs-multiple-scenes.html">
 
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="@greggman" />
-<meta name="twitter:creator" content="@greggman" />
-<meta name="twitter:domain" content="threejsfundamentals.org" />
-<meta name="twitter:title" content="Three.js - Несколько холстов и Несколько сцен" />
-<meta name="twitter:url" content="https://threejsfundamentals.org/threejs/lessons/ru/threejs-multiple-scenes.html" />
-<meta name="twitter:description" content="Kак рисовать на всей web-странице с THREE.js" />
-<meta name="twitter:image:src" content="https://threejsfundamentals.org/threejs/lessons/screenshots/threejs-multiple-scenes_ru.jpg" />
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@greggman">
+<meta name="twitter:creator" content="@greggman">
+<meta name="twitter:domain" content="threejsfundamentals.org">
+<meta name="twitter:title" content="Three.js - Несколько холстов и Несколько сцен">
+<meta name="twitter:url" content="https://threejsfundamentals.org/threejs/lessons/ru/threejs-multiple-scenes.html">
+<meta name="twitter:description" content="Kак рисовать на всей web-странице с THREE.js">
+<meta name="twitter:image:src" content="https://threejsfundamentals.org/threejs/lessons/screenshots/threejs-multiple-scenes_ru.jpg">
+
+  <link rel="alternate" hreflang="en" href="https://webglfundamentals.org/threejs/lessons/threejs-multiple-scenes.html">
+  <link rel="alternate" hreflang="fr" href="https://webglfundamentals.org/threejs/lessons/fr/threejs-multiple-scenes.html">
+  <link rel="alternate" hreflang="ja" href="https://webglfundamentals.org/threejs/lessons/ja/threejs-multiple-scenes.html">
+  <link rel="alternate" hreflang="kr" href="https://webglfundamentals.org/threejs/lessons/kr/threejs-multiple-scenes.html">
+  <link rel="alternate" hreflang="ru" href="https://webglfundamentals.org/threejs/lessons/ru/threejs-multiple-scenes.html">
+  <link rel="alternate" hreflang="zh_cn" href="https://webglfundamentals.org/threejs/lessons/zh_cn/threejs-multiple-scenes.html">
+
+
+
 
 <script type="application/ld+json">
 {
@@ -95,13 +105,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <link href="/threejs/lessons/resources/threejsfundamentals-icon.png" rel="shortcut icon" type="image/png">
 <link rel="apple-touch-icon" href="/threejs/lessons/resources/threejsfundamentals-icon.png">
 <link rel="icon" href="/threejs/lessons/resources/threejsfundamentals-icon.png">
-<link rel="stylesheet" href="/threejs/lessons/resources/lesson.css" />
+
+<link rel="stylesheet" href="/threejs/lessons/lang.css">
+<link rel="stylesheet" href="/threejs/lessons/resources/lesson.css">
 </head>
 <body>
 <div class="threejs_navbar">
   <div>
     <select class="language">
     <option value="/threejs/lessons/threejs-multiple-scenes.html" >English</a>
+    <option value="/threejs/lessons/fr/threejs-multiple-scenes.html" >Français</a>
+    <option value="/threejs/lessons/ja/threejs-multiple-scenes.html" >日本語</a>
+    <option value="/threejs/lessons/kr/threejs-multiple-scenes.html" >한국어</a>
     <option value="/threejs/lessons/ru/threejs-multiple-scenes.html" selected>Русский</a>
     <option value="/threejs/lessons/zh_cn/threejs-multiple-scenes.html" >中文</a>
 </select>
@@ -208,7 +223,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <p>Допустим, вы хотите создать сайт электронной коммерции или сделать 
 страницу с множеством трехмерных диаграмм. На первый взгляд все 
 выглядит просто. Просто сделайте холст для каждой диаграммы. 
-Для каждого холста сделайте <code>Renderer</code>.</p>
+Для каждого холста сделайте <code class="notranslate" translate="no">Renderer</code>.</p>
 <p>Вы быстро обнаружите, что у вас возникли проблемы.</p>
 <ol>
 <li><p>Браузер ограничивает количество контекстов WebGL, которые вы можете иметь.</p>
@@ -227,7 +242,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <p>Так в чем же решение?</p>
 <p>Решением является один холст, который заполняет область просмотра в фоновом режиме 
 и некоторый другой элемент для представления каждого «виртуального» холста.
-Мы делаем один <code>Renderer</code> и затем одну <code>Scene</code> для каждого виртуального холста. 
+Мы делаем один <code class="notranslate" translate="no">Renderer</code> и затем одну <code class="notranslate" translate="no">Scene</code> для каждого виртуального холста. 
 Затем мы проверим положение элементов виртуального холста и, если они будут на 
 экране, мы скажем THREE.js нарисовать их сцену в правильном месте.</p>
 <p>С этим решением есть только 1 холст, поэтому мы решаем обе задачи 1 и 2 выше. 
@@ -235,7 +250,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 использовать только один контекст. Мы также не будем сталкиваться с проблемами 
 обмена по тем же причинам.</p>
 <p>Давайте начнем с простого примера с двумя сценами. Сначала мы сделаем HTML</p>
-<pre class="prettyprint"><code class="lang-html">&lt;canvas id=&quot;c&quot;&gt;шутки про three js&lt;/canvas&gt;
+<pre class="prettyprint notranslate" translate="no"><code class="lang-html">&lt;canvas id=&quot;c&quot;&gt;шутки про three js&lt;/canvas&gt;
 &lt;p&gt;
   &lt;span id=&quot;box&quot; class=&quot;diagram left&quot;&gt;&lt;/span&gt;
   Я люблю коробки (boxes). Подарки приходят в коробках.
@@ -248,12 +263,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 &lt;/p&gt;
 </code></pre>
 <p>Затем мы можем настроить CSS, как-то так</p>
-<pre class="prettyprint"><code class="lang-css">#c {
+<pre class="prettyprint notranslate" translate="no"><code class="lang-css">#c {
   position: fixed;
   left: 0;
   top: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: block;
   z-index: -1;
 }
@@ -272,13 +287,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   margin-left: .25em;
 }
 </code></pre>
-<p>Мы устанавливаем холст, чтобы заполнить экран, и мы устанавливаем <code>z-index</code> = 
+<p>Мы устанавливаем холст, чтобы заполнить экран, и мы устанавливаем <code class="notranslate" translate="no">z-index</code> = 
 -1 , чтобы он появлялся позади других элементов. Нам также нужно указать некоторую 
 ширину и высоту для наших виртуальных элементов холста, поскольку внутри 
 нет ничего, что могло бы придать им какой-либо размер.</p>
 <p>Теперь мы сделаем 2 сцены с подсветкой и камерой. 
 К одной сцене мы добавим куб, а к другой ромб.</p>
-<pre class="prettyprint"><code class="lang-js">function makeScene(elem) {
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">function makeScene(elem) {
   const scene = new THREE.Scene();
 
   const fov = 45;
@@ -332,10 +347,10 @@ const sceneInfo2 = setupScene2();
 </code></pre>
 <p>И тогда мы сделаем функцию для рендеринга каждой сцены, только если элемент 
 находится на экране. Мы можем указать THREE.js визуализировать только часть 
-холста, включив тест <em>scissor</em> через <code>Renderer.setScissorTest</code>, затем установим 
+холста, включив тест <em>scissor</em> через <code class="notranslate" translate="no">Renderer.setScissorTest</code>, затем установим 
 плоскость обрезания и область просмотра (Viewport) с помощью 
-<code>Renderer.setViewport</code> и <code>Renderer.setScissor</code>.</p>
-<pre class="prettyprint"><code class="lang-js">function renderSceneInfo(sceneInfo) {
+<code class="notranslate" translate="no">Renderer.setViewport</code> и <code class="notranslate" translate="no">Renderer.setScissor</code>.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">function renderSceneInfo(sceneInfo) {
   const {scene, camera, elem} = sceneInfo;
 
   // получаем относительную позицию окна просмотра этого элемента
@@ -364,7 +379,7 @@ const sceneInfo2 = setupScene2();
 </code></pre>
 <p>И тогда наша функция рендеринга просто сначала очистит экран, 
 а затем отрисует каждую сцену.</p>
-<pre class="prettyprint"><code class="lang-js">function render(time) {
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">function render(time) {
   time *= 0.001;
 
   resizeRendererToDisplaySize(renderer);
@@ -383,21 +398,21 @@ const sceneInfo2 = setupScene2();
 }
 </code></pre>
 <p>И вот оно</p>
-<p><div class="threejs_example_container">
-  <div><iframe class="threejs_example" style=" " src="/threejs/resources/editor.html?url=/threejs/lessons/..%2Fthreejs-multiple-scenes-v1.html"></iframe></div>
+<p><div translate="no" class="threejs_example_container notranslate">
+  <div><iframe class="threejs_example notranslate" translate="no" style=" " src="/threejs/resources/editor.html?url=/threejs/lessons/..%2Fthreejs-multiple-scenes-v1.html"></iframe></div>
   <a class="threejs_center" href="/threejs/lessons/../threejs-multiple-scenes-v1.html" target="_blank">нажмите здесь, чтобы открыть в отдельном окне</a>
 </div>
 
 </p>
-<p>Вы можете увидеть, где на первом месте <code>&lt;span&gt;</code> находится красный куб, 
-а на втором <code>span</code> - синий ромб.</p>
+<p>Вы можете увидеть, где на первом месте <code class="notranslate" translate="no">&lt;span&gt;</code> находится красный куб, 
+а на втором <code class="notranslate" translate="no">span</code> - синий ромб.</p>
 <h2 id="-">Синхронизация</h2>
 <p>Код выше работает, но есть одна небольшая проблема. 
 Если ваши сцены сложные или по какой-либо причине требуется 
 слишком много времени для рендеринга, положение сцен, 
 нарисованных на холсте, будет отставать от остальной части страницы.</p>
 <p>Если мы дадим каждой области границу</p>
-<pre class="prettyprint"><code class="lang-css">.diagram {
+<pre class="prettyprint notranslate" translate="no"><code class="lang-css">.diagram {
   display: inline-block;
   width: 5em;
   height: 3em;
@@ -405,7 +420,7 @@ const sceneInfo2 = setupScene2();
 }
 </code></pre>
 <p>И устанавливаем фон каждой сцены</p>
-<pre class="prettyprint"><code class="lang-js">const scene = new THREE.Scene();
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const scene = new THREE.Scene();
 +scene.background = new THREE.Color(&#39;red&#39;);
 </code></pre>
 <p>И если мы <a href="../../threejs-multiple-scenes-v2.html" target="_blank">быстро прокрутим вверх и вниз</a> 
@@ -413,23 +428,23 @@ const sceneInfo2 = setupScene2();
 <div class="threejs_center"><img class="border" src="../resources/images/multi-view-skew.gif"></div>
 
 <p>Мы можем использовать другой метод, который имеет другой компромисс. 
-Мы переключим CSS холста с <code>position: fixed</code> на <code>position: absolute</code>. </p>
-<pre class="prettyprint"><code class="lang-css">#c {
+Мы переключим CSS холста с <code class="notranslate" translate="no">position: fixed</code> на <code class="notranslate" translate="no">position: absolute</code>. </p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-css">#c {
 -  position: fixed;
 +  position: absolute;
 </code></pre>
 <p>Затем мы установим преобразование (transform) холста, чтобы переместить его так, 
 чтобы верх холста находился в верхней части любой части, 
 на которую в данный момент прокручивается страница.</p>
-<pre class="prettyprint"><code class="lang-js">function render(time) {
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">function render(time) {
   ...
 
   const transform = `translateY(${window.scrollY}px)`;
   renderer.domElement.style.transform = transform;
 </code></pre>
-<p><code>position: fixed</code> удерживает холст от прокрутки вообще, 
+<p><code class="notranslate" translate="no">position: fixed</code> удерживает холст от прокрутки вообще, 
 в то время как остальная часть страницы прокручивалась поверх него. 
-<code>position: absolute</code> позволит холсту прокручиваться с остальной частью 
+<code class="notranslate" translate="no">position: absolute</code> позволит холсту прокручиваться с остальной частью 
 страницы, что означает, что все, что мы рисуем, будет прилипать 
 к странице, когда она прокручивается, даже если мы слишком медленны 
 для рендеринга. Когда мы наконец получаем возможность 
@@ -448,7 +463,7 @@ const sceneInfo2 = setupScene2();
 Таким образом, у нас была бы общая система, в которой отдельные сцены на самом деле не знают, 
 что знают, что их визуализируют в каком-то меньшем пространстве.</p>
 <p>Вот основная функция отрисовки</p>
-<pre class="prettyprint"><code class="lang-js">const sceneElements = [];
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const sceneElements = [];
 function addScene(elem, fn) {
   sceneElements.push({elem, fn});
 }
@@ -489,12 +504,12 @@ function render(time) {
   requestAnimationFrame(render);
 }
 </code></pre>
-<p>Вы можете видеть, что он зацикливается на массиве объектов <code>sceneElements</code>, 
-каждый из которых имеет свойство <code>elem</code> и <code>fn</code>.</p>
-<p>Он проверяет, находится ли элемент на экране. Если это так, то он вызывает <code>fn</code>
+<p>Вы можете видеть, что он зацикливается на массиве объектов <code class="notranslate" translate="no">sceneElements</code>, 
+каждый из которых имеет свойство <code class="notranslate" translate="no">elem</code> и <code class="notranslate" translate="no">fn</code>.</p>
+<p>Он проверяет, находится ли элемент на экране. Если это так, то он вызывает <code class="notranslate" translate="no">fn</code>
 и передает ему текущее время и его прямоугольник.</p>
 <p>Теперь установочный код для каждой сцены просто добавляет себя в список сцен</p>
-<pre class="prettyprint"><code class="lang-js">{
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">{
   const elem = document.querySelector(&#39;#box&#39;);
   const {scene, camera} = makeScene();
   const geometry = new THREE.BoxBufferGeometry(1, 1, 1);
@@ -530,10 +545,10 @@ function render(time) {
   });
 }
 </code></pre>
-<p>При этом нам больше не нужно <code>sceneInfo1</code> и <code>sceneInfo2</code>. 
+<p>При этом нам больше не нужно <code class="notranslate" translate="no">sceneInfo1</code> и <code class="notranslate" translate="no">sceneInfo2</code>. 
 Код, который вращал меши, теперь специфичен для каждой сцены.</p>
-<p><div class="threejs_example_container">
-  <div><iframe class="threejs_example" style=" " src="/threejs/resources/editor.html?url=/threejs/lessons/..%2Fthreejs-multiple-scenes-generic.html"></iframe></div>
+<p><div translate="no" class="threejs_example_container notranslate">
+  <div><iframe class="threejs_example notranslate" translate="no" style=" " src="/threejs/resources/editor.html?url=/threejs/lessons/..%2Fthreejs-multiple-scenes-generic.html"></iframe></div>
   <a class="threejs_center" href="/threejs/lessons/../threejs-multiple-scenes-generic.html" target="_blank">нажмите здесь, чтобы открыть в отдельном окне</a>
 </div>
 
@@ -541,9 +556,9 @@ function render(time) {
 <h2 id="-html">Использование набора данных в HTML</h2>
 <p>Еще одна, еще более общая вещь, которую мы можем сделать, это использовать 
 <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset">dataset</a>. 
-Это способ добавить свои собственные данные в элемент HTML. Вместо использования <code>id=&quot;...&quot;</code> 
-мы будем использовать <code>data-diagram=&quot;...&quot;</code> как тут</p>
-<pre class="prettyprint"><code class="lang-html">&lt;canvas id=&quot;c&quot;&gt;&lt;/canvas&gt;
+Это способ добавить свои собственные данные в элемент HTML. Вместо использования <code class="notranslate" translate="no">id=&quot;...&quot;</code> 
+мы будем использовать <code class="notranslate" translate="no">data-diagram=&quot;...&quot;</code> как тут</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-html">&lt;canvas id=&quot;c&quot;&gt;&lt;/canvas&gt;
 &lt;p&gt;
 -  &lt;span id=&quot;box&quot; class=&quot;diagram left&quot;&gt;&lt;/span&gt;
 +  &lt;span data-diagram=&quot;box&quot; class=&quot;left&quot;&gt;&lt;/span&gt;
@@ -558,7 +573,7 @@ function render(time) {
 &lt;/p&gt;
 </code></pre>
 <p>Мы можем их изменить селектор CSS, чтобы выбрать для этого</p>
-<pre class="prettyprint"><code class="lang-css">-.diagram
+<pre class="prettyprint notranslate" translate="no"><code class="lang-css">-.diagram
 +*[data-diagram] {
   display: inline-block;
   width: 5em;
@@ -567,7 +582,7 @@ function render(time) {
 </code></pre>
 <p>Мы изменим код установки сцены, чтобы он представлял собой карту имен для <em>функций инициализации сцены</em> 
 , которые возвращают функцию <em>отрисовки сцены</em>.</p>
-<pre class="prettyprint"><code class="lang-js">const sceneInitFunctionsByName = {
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const sceneInitFunctionsByName = {
   &#39;box&#39;: () =&gt; {
     const {scene, camera} = makeScene();
     const geometry = new THREE.BoxBufferGeometry(1, 1, 1);
@@ -601,9 +616,9 @@ function render(time) {
   },
 };
 </code></pre>
-<p>И для инициализации мы можем просто использовать <code>querySelectorAll</code>, 
+<p>И для инициализации мы можем просто использовать <code class="notranslate" translate="no">querySelectorAll</code>, 
 чтобы найти все диаграммы и вызвать соответствующую функцию инициализации для этой диаграммы.</p>
-<pre class="prettyprint"><code class="lang-js">document.querySelectorAll(&#39;[data-diagram]&#39;).forEach((elem) =&gt; {
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">document.querySelectorAll(&#39;[data-diagram]&#39;).forEach((elem) =&gt; {
   const sceneName = elem.dataset.diagram;
   const sceneInitFunction = sceneInitFunctionsByName[sceneName];
   const sceneRenderFunction = sceneInitFunction(elem);
@@ -613,12 +628,12 @@ function render(time) {
 <p>Никаких изменений в визуальных элементах, но код легче переиспользовать.</p>
 <p></p>
 <h2 id="-">Добавление элементов управления к каждому элементу</h2>
-<p>Например, добавление <code>TrackballControls</code> в интерактивном режиме так же просто. 
+<p>Например, добавление <code class="notranslate" translate="no">TrackballControls</code> в интерактивном режиме так же просто. 
 Сначала мы добавляем скрипт для контролов.</p>
-<pre class="prettyprint"><code class="lang-js">import {TrackballControls} from &#39;./resources/threejs/r110/examples/jsm/controls/TrackballControls.js&#39;;
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">import {TrackballControls} from &#39;./resources/threejs/r122/examples/jsm/controls/TrackballControls.js&#39;;
 </code></pre>
-<p>И затем мы можем добавить <code>TrackballControls</code> к каждой сцене, передавая элемент, связанный с этой сценой.</p>
-<pre class="prettyprint"><code class="lang-js">-function makeScene() {
+<p>И затем мы можем добавить <code class="notranslate" translate="no">TrackballControls</code> к каждой сцене, передавая элемент, связанный с этой сценой.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">-function makeScene() {
 +function makeScene(elem) {
   const scene = new THREE.Scene();
 
@@ -649,11 +664,11 @@ function render(time) {
 }
 </code></pre>
 <p>Вы заметите, что мы добавили камеру на сцену и свет на камеру. Это делает свет 
-относительно камеры. Поскольку <code>TrackballControls</code> двигает камеру, 
+относительно камеры. Поскольку <code class="notranslate" translate="no">TrackballControls</code> двигает камеру, 
 это, вероятно, то, что мы хотим. Он сохраняет свет, 
 сияющий на стороне объекта, на который мы смотрим.</p>
 <p>Нам нужно обновить эти элементы управления в наших функциях отрисовки</p>
-<pre class="prettyprint"><code class="lang-js">const sceneInitFunctionsByName = {
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const sceneInitFunctionsByName = {
 - &#39;box&#39;: () =&gt; {
 -    const {scene, camera} = makeScene();
 + &#39;box&#39;: (elem) =&gt; {
@@ -706,6 +721,9 @@ function render(time) {
     <div class="lesson-sidebar">
         <select class="language">
     <option value="/threejs/lessons/threejs-multiple-scenes.html" >English</a>
+    <option value="/threejs/lessons/fr/threejs-multiple-scenes.html" >Français</a>
+    <option value="/threejs/lessons/ja/threejs-multiple-scenes.html" >日本語</a>
+    <option value="/threejs/lessons/kr/threejs-multiple-scenes.html" >한국어</a>
     <option value="/threejs/lessons/ru/threejs-multiple-scenes.html" selected>Русский</a>
     <option value="/threejs/lessons/zh_cn/threejs-multiple-scenes.html" >中文</a>
 </select>
@@ -716,8 +734,39 @@ function render(time) {
         <ul>
           <li><a href="/threejs/lessons/ru/threejs-fundamentals.html">Базовые принципы</a></li>
 <li><a href="/threejs/lessons/ru/threejs-responsive.html">Адаптивный дизайн</a></li>
-<li><a href="/threejs/lessons/ru/threejs-prerequisites.html">Prerequisites</a></li>
+<li><a href="/threejs/lessons/ru/threejs-prerequisites.html">Необходимые условия</a></li>
 <li><a href="/threejs/lessons/ru/threejs-setup.html">Настройка</a></li>
+        </ul>
+  <li>Фунаментальные понятия</li>
+        <ul>
+          <li><a href="/threejs/lessons/ru/threejs-primitives.html">Примитивы</a></li>
+<li><a href="/threejs/lessons/ru/threejs-scenegraph.html">Граф сцены</a></li>
+<li><a href="/threejs/lessons/ru/threejs-materials.html">Материалы</a></li>
+<li><a href="/threejs/lessons/ru/threejs-textures.html">Текстуры</a></li>
+<li><a href="/threejs/lessons/ru/threejs-lights.html">Освещение</a></li>
+<li><a href="/threejs/lessons/ru/threejs-cameras.html">Камера</a></li>
+<li><a href="/threejs/lessons/ru/threejs-shadows.html">Тени</a></li>
+<li><a href="/threejs/lessons/ru/threejs-fog.html">Туман</a></li>
+<li><a href="/threejs/lessons/ru/threejs-rendertargets.html">Цели рендеринга</a></li>
+<li><a href="/threejs/lessons/ru/threejs-custom-geometry.html">Пользовательская Geometry</a></li>
+<li><a href="/threejs/lessons/ru/threejs-custom-buffergeometry.html">Пользовательская BufferGeometry</a></li>
+        </ul>
+  <li>Советы</li>
+        <ul>
+          <li><a href="/threejs/lessons/ru/threejs-rendering-on-demand.html">Рендеринг по требованию</a></li>
+<li><a href="/threejs/lessons/ru/threejs-debugging-javascript.html">Отладка JavaScript</a></li>
+<li><a href="/threejs/lessons/ru/threejs-debugging-glsl.html">Отладка GLSL</a></li>
+<li><a href="/threejs/lessons/ru/threejs-tips.html#screenshot">Делаем скриншот холста</a></li>
+<li><a href="/threejs/lessons/ru/threejs-tips.html#preservedrawingbuffer">Предотвращение очистки холста </a></li>
+<li><a href="/threejs/lessons/ru/threejs-tips.html#tabindex">Ввод с клавиатуры</a></li>
+<li><a href="/threejs/lessons/ru/threejs-tips.html#transparent-canvas">Делаем холст прозрачным </a></li>
+<li><a href="/threejs/lessons/ru/threejs-tips.html#html-background">Создание анимированного фона в three.js </a></li>
+        </ul>
+  <li>Оптимизация</li>
+        <ul>
+          <li><a href="/threejs/lessons/ru/threejs-optimize-lots-of-objects.html">Оптимизация большого количества объектов</a></li>
+<li><a href="/threejs/lessons/ru/threejs-optimize-lots-of-objects-animated.html">Оптимизация множества анимированных объектов</a></li>
+<li><a href="/threejs/lessons/ru/threejs-offscreencanvas.html">Использование OffscreenCanvas в воркере</a></li>
         </ul>
   <li>Решения</li>
         <ul>
@@ -740,40 +789,9 @@ function render(time) {
         </ul>
   <li>WebVR</li>
         <ul>
-          <li><a href="/threejs/lessons/ru/threejs-webvr.html">WebVR - Basics</a></li>
-<li><a href="/threejs/lessons/ru/threejs-webvr-look-to-select.html">WebVR - Look To Select</a></li>
-<li><a href="/threejs/lessons/ru/threejs-webvr-point-to-select.html">WebVR - Point To Select</a></li>
-        </ul>
-  <li>Optimization</li>
-        <ul>
-          <li><a href="/threejs/lessons/ru/threejs-optimize-lots-of-objects.html">Optimizing Lots of Objects</a></li>
-<li><a href="/threejs/lessons/ru/threejs-optimize-lots-of-objects-animated.html">Optimizing Lots of Objects Animated</a></li>
-<li><a href="/threejs/lessons/ru/threejs-offscreencanvas.html">Using OffscreenCanvas in a Web Worker</a></li>
-        </ul>
-  <li>Советы</li>
-        <ul>
-          <li><a href="/threejs/lessons/ru/threejs-rendering-on-demand.html">Rendering On Demand</a></li>
-<li><a href="/threejs/lessons/ru/threejs-debugging-javascript.html">Debugging JavaScript</a></li>
-<li><a href="/threejs/lessons/ru/threejs-debugging-glsl.html">Debugging GLSL</a></li>
-<li><a href="/threejs/lessons/ru/threejs-tips.html#screenshot">Taking a screenshot</a></li>
-<li><a href="/threejs/lessons/ru/threejs-tips.html#preservedrawingbuffer">Prevent the Canvas Being Cleared</a></li>
-<li><a href="/threejs/lessons/ru/threejs-tips.html#tabindex">Get Keyboard Input From a Canvas</a></li>
-<li><a href="/threejs/lessons/ru/threejs-tips.html#transparent-canvas">Make the Canvas Transparent</a></li>
-<li><a href="/threejs/lessons/ru/threejs-tips.html#html-background">Use three.js as Background in HTML</a></li>
-        </ul>
-  <li>Фунаментальные понятия</li>
-        <ul>
-          <li><a href="/threejs/lessons/ru/threejs-primitives.html">Примитивы</a></li>
-<li><a href="/threejs/lessons/ru/threejs-scenegraph.html">Граф сцены</a></li>
-<li><a href="/threejs/lessons/ru/threejs-materials.html">Материалы</a></li>
-<li><a href="/threejs/lessons/ru/threejs-textures.html">Текстуры</a></li>
-<li><a href="/threejs/lessons/ru/threejs-lights.html">Освещение</a></li>
-<li><a href="/threejs/lessons/ru/threejs-cameras.html">Камера</a></li>
-<li><a href="/threejs/lessons/ru/threejs-shadows.html">Shadows</a></li>
-<li><a href="/threejs/lessons/ru/threejs-fog.html">Fog</a></li>
-<li><a href="/threejs/lessons/ru/threejs-rendertargets.html">Render Targets</a></li>
-<li><a href="/threejs/lessons/ru/threejs-custom-geometry.html">Custom Geometry</a></li>
-<li><a href="/threejs/lessons/ru/threejs-custom-buffergeometry.html">Custom BufferGeometry</a></li>
+          <li><a href="/threejs/lessons/ru/threejs-webvr.html">VR - Basics</a></li>
+<li><a href="/threejs/lessons/ru/threejs-webvr-look-to-select.html">VR - Look To Select</a></li>
+<li><a href="/threejs/lessons/ru/threejs-webvr-point-to-select.html">VR - Point To Select</a></li>
         </ul>
   <li>Ссылки</li>
         <ul>
@@ -817,14 +835,33 @@ function render(time) {
 <script src="/3rdparty/jquery-3.3.1.slim.min.js"></script>
 <script src="/threejs/lessons/resources/prettify.js"></script>
 <script src="/threejs/lessons/resources/lesson.js"></script>
-<script src="//cdn.webglstats.com/stat.js" defer="defer" async="async"></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-120733518-1"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+(function() {
+  if (window.location.hostname.indexOf("threejsfundamentals.org") < 0) {
+      return;
+  }
 
-  gtag('config', 'UA-120733518-1');
+  function addScript(src, fn) {
+    const script = document.createElement('script');
+    const firstScript = document.getElementsByTagName('script')[0];
+    script.async = true;
+    script.defer = true;
+    if (fn) {
+      script.addEventListener('load', fn);
+    }
+    script.src = src;
+    firstScript.parentNode.insertBefore(script, firstScript);
+  }
+
+  addScript('//cdn.webglstats.com/stat.js');
+  addScript('https://www.googletagmanager.com/gtag/js?id=UA-120733518-1', () => {
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-120733518-1');
+  });
+}());
 </script>
 
 

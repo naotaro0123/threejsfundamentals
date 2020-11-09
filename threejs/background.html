@@ -22,9 +22,9 @@
     <canvas id="c"></canvas>
   </body>
 <script type="module">
-import * as THREE from './resources/threejs/r110/build/three.module.js';
-import {OrbitControls} from './resources/threejs/r110/examples/jsm/controls/OrbitControls.js';
-import {GLTFLoader} from './resources/threejs/r110/examples/jsm/loaders/GLTFLoader.js';
+import * as THREE from './resources/threejs/r122/build/three.module.js';
+import {OrbitControls} from './resources/threejs/r122/examples/jsm/controls/OrbitControls.js';
+import {GLTFLoader} from './resources/threejs/r122/examples/jsm/loaders/GLTFLoader.js';
 
 function main() {
   const canvas = document.querySelector('#c');
@@ -52,8 +52,7 @@ function main() {
     controls.update();
   }
 
-  renderer.gammaInput = true;
-  renderer.gammaOutput = true;
+  renderer.outputEncoding = THREE.GammaEncoding;
   renderer.shadowMap.enabled = true;
 
   const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
@@ -191,8 +190,8 @@ function main() {
 
     if (resizeRendererToDisplaySize(renderer)) {
       const aspect = canvas.clientWidth / canvas.clientHeight;
-      const fovX = THREE.Math.radToDeg(2 * Math.atan(Math.tan(THREE.Math.degToRad(fov) * 0.5) * aspect));
-      const newFovY = THREE.Math.radToDeg(2 * Math.atan(Math.tan(THREE.Math.degToRad(maxFovX) * .5) / aspect));
+      const fovX = THREE.MathUtils.radToDeg(2 * Math.atan(Math.tan(THREE.MathUtils.degToRad(fov) * 0.5) * aspect));
+      const newFovY = THREE.MathUtils.radToDeg(2 * Math.atan(Math.tan(THREE.MathUtils.degToRad(maxFovX) * .5) / aspect));
       camera.fov = fovX > maxFovX ? newFovY : fov;
       camera.aspect = aspect;
       camera.updateProjectionMatrix();

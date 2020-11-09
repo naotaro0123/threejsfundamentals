@@ -1,7 +1,7 @@
 
 body {
   margin: 0;
-  font-family: Georgia, serif;
+  font-family: var(--article-font-family);
   font-size: 19px;
   line-height: 150%;
 }
@@ -27,6 +27,10 @@ table {
 .footnotes {
   font-size: smaller;
 }
+.deep-link {
+  position: absolute;
+  transform: translateX(-1em);
+}
 
 pre {
   background: rgb(143, 140, 140);
@@ -39,13 +43,14 @@ pre>code {
 pre.prettyprint {
     margin-top: 2em !important;
     margin-bottom: 2em !important;
+    position: relative;
 }
 pre.prettyprint li {
     white-space: pre;
 }
 pre.prettyprint code, .dos {
     color: #CCC;
-    font-family: "Lucida Console", Monaco, monospace;
+    font-family: var(--code-block-font-family);
     display: block;
 }
 
@@ -70,7 +75,7 @@ div[data-diagram] {
   flex: 1 1 100%;
 }
 .spread .code {
-  font-family: monospace;
+  font-family: var(--code-font-family);
 }
 .spread .code>div {
   text-align: left;
@@ -79,8 +84,8 @@ div[data-diagram] {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   z-index: -100;
 }
 .border {
@@ -177,6 +182,16 @@ div[data-diagram] {
 .home-lang select {
     font-size: large;
 }
+.color {
+  padding: 0.25em;
+  border-radius: 0.5em;
+  color: black;
+}
+.dark-color {
+  padding: 0.25em;
+  border-radius: 0.5em;
+  color: white;
+}
 .checkerboard {
   background-color: #404040;
   background-image:
@@ -191,8 +206,8 @@ div[data-diagram] {
     position: fixed !important;
     left: 0;
     top: 0;
-    width: 100vw !important;
-    height: 100vh !important;
+    width: 100% !important;
+    height: 100% !important;
     z-index: 100;
 }
 .lesson-main>blockquote {
@@ -224,7 +239,7 @@ div[data-diagram] {
     text-indent: -1em;
 }
 h1, h2, h3, h4 {
-  font-family: sans-serif;
+  font-family: var(--headline-font-family);
   line-height: 1.2;
 }
 h3 {
@@ -232,7 +247,7 @@ h3 {
 }
 code {
     color: black;
-    font-family: monospace;
+    font-family: var(--code-font-family);
     background-color: #ddd;
     padding: 0.1em 0.2em 0.1em 0.2em;
     border-radius: 0.5em;
@@ -319,7 +334,7 @@ iframe {
 }
 
 iframe.body {
-  height: 100vh;
+  height: 100%;
 }
 iframe.threejs_example, iframe.threejs_diagram {
   border: none;
@@ -375,7 +390,7 @@ pre.prettyprint .atv { color: #70c0b1 } /* attribute value */
 pre.prettyprint .dec { color: #e78c45 } /* decimal         */
 pre.prettyprint .var { color: #d54e53 } /* variable name   */
 pre.prettyprint .fun { color: #7aa6da } /* function name   */
-
+foo{ color: #FF8080}
 pre.prettyprint ul.modifiedlines {
     list-style-type: none;
     padding-left: 0;
@@ -402,7 +417,7 @@ pre.prettyprint, code.prettyprint, .dos {
     border: 1px solid #000;
     box-shadow: 10px 10px 0px #ccc;
     font-size: 9pt;
-    font-family: "Lucida Console", Monaco, monospace;
+    font-family: var(--code-block-font-family);
     margin: auto;
     padding: 1em;
     text-align: left;           /* override justify on body */
@@ -454,7 +469,7 @@ pre.prettyprint.lighttheme .fun { color: #900; }  /* function name */
         color: #000;
         background: #EEE;
         font-size: 8pt;
-        font-family: "Lucida Console", Monaco, monospace;
+        font-family: var(--code-block-font-family);
         width: 95%;
         margin: auto;
         padding: 1em;
@@ -565,5 +580,10 @@ pre.prettyprint.lighttheme .fun { color: #900; }  /* function name */
   .lesson-comment-notes {
     background: #222;
   }
+  input[type=text] {
+    background: #444;
+    color: white;
+    border: none;
+    padding: 3px;
+  }
 }
-

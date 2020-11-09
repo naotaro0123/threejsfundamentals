@@ -97,8 +97,8 @@
           left: 0;
           top: 0;
           background-color: #DEF;
-          width: 100vw;
-          height: 100vh;
+          width: 100%;
+          height: 100%;
           display: flex;
           flex-flow: column;
           justify-content: center;
@@ -133,7 +133,7 @@
       background: rgba(221, 221, 221, 0.9);
     }
     .console .console-line {
-      white-space: pre;
+      white-space: pre-line;
     }
     .console .log .warn {
       color: black;
@@ -203,11 +203,16 @@
       addLine(type, str, prefix);
     }
 
+    const threePukeRE = /WebGLRenderer.*?extension not supported/;
     function wrapFunc(obj, funcName, prefix) {
       const oldFn = obj[funcName];
       origConsole[funcName] = oldFn.bind(obj);
       return function(...args) {
-        addLines(funcName, [...args].join(' '), prefix);
+        // three.js pukes all over so filter here
+        const src = [...args].join(' ');
+        if (!threePukeRE.test(src)) {
+          addLines(funcName, src, prefix);
+        }
         oldFn.apply(obj, arguments);
       };
     }
@@ -334,8 +339,8 @@
     };
     const OrigWorker = self.Worker;
     class WrappedWorker extends OrigWorker {
-      constructor(url) {
-        super(url);
+      constructor(url, ...args) {
+        super(url, ...args);
         let listener;
         this.onmessage = function(e) {
           if (!e || !e.data || !e.data.type === '___editor___') {
@@ -389,16 +394,18 @@
     setupLesson = function() {};
 
     if (canvas) {
-      canvas.addEventListener('webglcontextlost', function(e) {
+      canvas.addEventListener('webglcontextlost', function() {
           // the default is to do nothing. Preventing the default
           // means allowing context to be restored
-          e.preventDefault();
+          // e.preventDefault();  // can't do this because firefox bug - https://bugzilla.mozilla.org/show_bug.cgi?id=1633280
           addContextLostHTML();
       });
+      /* can't do this because firefox bug - https://bugzilla.mozilla.org/show_bug.cgi?id=1633280
       canvas.addEventListener('webglcontextrestored', function() {
           // just reload the page. Easiest.
           window.location.reload();
       });
+      */
     }
 
     if (isInIFrame()) {
@@ -406,76 +413,81 @@
     }
   };
 
-  /**
-   * Gets the iframe in the parent document
-   * that is displaying the specified window .
-   * @param {Window} window window to check.
-   * @return {HTMLIFrameElement?) the iframe element if window is in an iframe
-   */
-  function getIFrameForWindow(window) {
-    if (!isInIFrame(window)) {
-      return;
-    }
-    const iframes = window.parent.document.getElementsByTagName('iframe');
-    for (let ii = 0; ii < iframes.length; ++ii) {
-      const iframe = iframes[ii];
-      if (iframe.contentDocument === window.document) {
-        return iframe;  // eslint-disable-line
-      }
-    }
-  }
-
-  /**
-   * Returns true if window is on screen. The main window is
-   * always on screen windows in iframes might not be.
-   * @param {Window} window the window to check.
-   * @return {boolean} true if window is on screen.
-   */
-  function isFrameVisible(window) {
-    try {
-      const iframe = getIFrameForWindow(window);
-      if (!iframe) {
-        return true;
-      }
-
-      const bounds = iframe.getBoundingClientRect();
-      const isVisible = bounds.top < window.parent.innerHeight && bounds.bottom >= 0 &&
-                        bounds.left < window.parent.innerWidth && bounds.right >= 0;
-
-      return isVisible && isFrameVisible(window.parent);
-    } catch (e) {
-      return true;  // We got a security error?
-    }
-  }
-
-  /**
-   * Returns true if element is on screen.
-   * @param {HTMLElement} element the element to check.
-   * @return {boolean} true if element is on screen.
-   */
-  function isOnScreen(element) {
-    let isVisible = true;
-
-    if (element) {
-      const bounds = element.getBoundingClientRect();
-      isVisible = bounds.top < topWindow.innerHeight && bounds.bottom >= 0;
-    }
-
-    return isVisible && isFrameVisible(topWindow);
-  }
-
-  // Replace requestAnimationFrame.
+  // Replace requestAnimationFrame and cancelAnimationFrame with one
+  // that only executes when the body is visible (we're in an iframe).
+  // It's frustrating that th browsers don't do this automatically.
+  // It's half of the point of rAF that it shouldn't execute when
+  // content is not visible but browsers execute rAF in iframes even
+  // if they are not visible.
   if (topWindow.requestAnimationFrame) {
-    topWindow.requestAnimationFrame = (function(oldRAF) {
+    topWindow.requestAnimationFrame = (function(oldRAF, oldCancelRAF) {
+      let nextFakeRAFId = 1;
+      const fakeRAFIdToCallbackMap = new Map();
+      let rafRequestId;
+      let isBodyOnScreen;
 
-      return function(callback, element) {
-        const handler = function() {
-          return oldRAF(isOnScreen(element) ? callback : handler, element);
-        };
-        return handler();
+      function rAFHandler(time) {
+        rafRequestId = undefined;
+        const ids = [...fakeRAFIdToCallbackMap.keys()];  // WTF! Map.keys() iterates over live keys!
+        for (const id of ids) {
+          const callback = fakeRAFIdToCallbackMap.get(id);
+          fakeRAFIdToCallbackMap.delete(id);
+          if (callback) {
+            callback(time);
+          }
+        }
+      }
+
+      function startRAFIfIntersectingAndNeeded() {
+        if (!rafRequestId && isBodyOnScreen && fakeRAFIdToCallbackMap.size > 0) {
+          rafRequestId = oldRAF(rAFHandler);
+        }
+      }
+
+      function stopRAF() {
+        if (rafRequestId) {
+          oldCancelRAF(rafRequestId);
+          rafRequestId = undefined;
+        }
+      }
+
+      function initIntersectionObserver() {
+        const intersectionObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            isBodyOnScreen = entry.isIntersecting;
+          });
+          if (isBodyOnScreen) {
+            startRAFIfIntersectingAndNeeded();
+          } else {
+            stopRAF();
+          }
+        });
+        intersectionObserver.observe(document.body);
+      }
+
+      function betterRAF(callback) {
+        const fakeRAFId = nextFakeRAFId++;
+        fakeRAFIdToCallbackMap.set(fakeRAFId, callback);
+        startRAFIfIntersectingAndNeeded();
+        return fakeRAFId;
+      }
+
+      function betterCancelRAF(id) {
+        fakeRAFIdToCallbackMap.delete(id);
+      }
+
+      topWindow.cancelAnimationFrame = betterCancelRAF;
+
+      return function(callback) {
+        // we need to lazy init this because this code gets parsed
+        // before body exists. We could fix it by moving lesson-helper.js
+        // after <body> but that would require changing 100s of examples
+        initIntersectionObserver();
+        topWindow.requestAnimationFrame = betterRAF;
+        return betterRAF(callback);
       };
 
-    }(topWindow.requestAnimationFrame));
+    }(topWindow.requestAnimationFrame, topWindow.cancelAnimationFrame));
   }
 
   updateCSSIfInIFrame();
@@ -523,22 +535,41 @@
     };
   }
 
+  const canvasesToTimeoutMap = new Map();
   const isWebGLRE = /^(webgl|webgl2|experimental-webgl)$/i;
+  const isWebGL2RE = /^webgl2$/i;
   function installWebGLLessonSetup() {
     HTMLCanvasElement.prototype.getContext = (function(oldFn) {
       return function() {
+        const timeoutId = canvasesToTimeoutMap.get(this);
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
         const type = arguments[0];
-        const isWebGL = isWebGLRE.test(type);
-        if (isWebGL) {
+        const isWebGL1or2 = isWebGLRE.test(type);
+        const isWebGL2 = isWebGL2RE.test(type);
+        if (isWebGL1or2) {
           setupLesson(this);
         }
         const args = [].slice.apply(arguments);
-        args[1] = Object.assign({
+        args[1] = {
           powerPreference: 'low-power',
-        }, args[1]);
+          ...args[1],
+        };
         const ctx = oldFn.apply(this, args);
-        if (!ctx && isWebGL) {
-          showNeedWebGL(this);
+        if (!ctx) {
+          if (isWebGL2) {
+            // three tries webgl2 then webgl1
+            // so wait 1/2 a second before showing the failure
+            // message. If we get success on the same canvas
+            // we'll cancel this.
+            canvasesToTimeoutMap.set(this, setTimeout(() => {
+              canvasesToTimeoutMap.delete(this);
+              showNeedWebGL(this);
+            }, 500));
+          } else {
+            showNeedWebGL(this);
+          }
         }
         return ctx;
       };

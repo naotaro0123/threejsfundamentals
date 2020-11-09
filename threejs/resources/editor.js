@@ -234,7 +234,7 @@ async function parseHTML(url, html) {
   const inlineScriptRE = /<script>([^]*?)<\/script>/i;
   const inlineModuleScriptRE = /<script type="module">([^]*?)<\/script>/i;
   const externalScriptRE = /(<!--(?:(?!-->)[\s\S])*?-->\n){0,1}<script\s+(type="module"\s+)?src\s*=\s*"(.*?)"\s*>\s*<\/script>/ig;
-  const dataScriptRE = /(<!--(?:(?!-->)[\s\S])*?-->\n){0,1}<script(.*?src=".*?)>([^]*?)<\/script>/ig;
+  const dataScriptRE = /(<!--(?:(?!-->)[\s\S])*?-->\n){0,1}<script(.*?id=".*?)>([^]*?)<\/script>/ig;
   const cssLinkRE = /<link ([^>]+?)>/g;
   const isCSSLinkRE = /type="text\/css"|rel="stylesheet"/;
   const hrefRE = /href="([^"]+)"/;
@@ -362,8 +362,8 @@ function makeBlobURLsForSources(scriptInfo) {
       scriptInfo.numLinesBeforeScript = 0;
       if (scriptInfo.isWorker) {
         const extra = `self.lessonSettings = ${JSON.stringify(lessonSettings)};
-importScripts('${dirname(scriptInfo.fqURL)}/resources/webgl-debug-helper.js');
-importScripts('${dirname(scriptInfo.fqURL)}/resources/lessons-worker-helper.js')`;
+import '${dirname(scriptInfo.fqURL)}/resources/webgl-debug-helper.js';
+import '${dirname(scriptInfo.fqURL)}/resources/lessons-worker-helper.js';`;
         scriptInfo.numLinesBeforeScript = extra.split('\n').length;
         text = `${extra}\n${text}`;
       }
@@ -478,27 +478,32 @@ function makeScriptsForWorkers(scriptInfo) {
   }
 
   const scripts = makeScriptsForWorkersImpl(scriptInfo);
-  const mainScript = scripts.pop().text;
-  if (!scripts.length) {
+  if (scripts.length === 1) {
     return {
-      js: mainScript,
+      js: scripts[0].text,
       html: '',
     };
   }
 
-  const workerName = scripts[scripts.length - 1].name;
+  // scripts[last]      = main script
+  // scripts[last - 1]  = worker
+  const mainScriptInfo = scripts[scripts.length - 1];
+  const workerScriptInfo = scripts[scripts.length - 2];
+  const workerName = workerScriptInfo.name;
+  mainScriptInfo.text = mainScriptInfo.text.split(`'${workerName}'`).join('getWorkerBlob()');
   const html = scripts.map((nameText) => {
     const {name, text} = nameText;
-    return `<script id="${name}" type="x-worker">\n${text}\n</script>`;
+    return `<script id="${name}" type="x-worker">\n${text}\n</script>\n`;
   }).join('\n');
   const init = `
 
 
 
 // ------
-// Creates Blobs for the Worker Scripts so things can be self contained for snippets/JSFiddle/Codepen
+// Creates Blobs for the Scripts so things can be self contained for snippets/JSFiddle/Codepen
+// even though they are using workers
 //
-function getWorkerBlob() {
+(function() {
   const idsToUrls = [];
   const scriptElements = [...document.querySelectorAll('script[type=x-worker]')];
   for (const scriptElement of scriptElements) {
@@ -511,11 +516,14 @@ function getWorkerBlob() {
     const id = scriptElement.id;
     idsToUrls.push({id, url});
   }
-  return idsToUrls.pop().url;
-}
+  window.getWorkerBlob = function() {
+    return idsToUrls.pop().url;
+  };
+  import(window.getWorkerBlob());
+}());
 `;
   return {
-    js: mainScript.split(`'${workerName}'`).join('getWorkerBlob()') + init,
+    js: init,
     html,
   };
 }
@@ -655,7 +663,7 @@ function setupEditor() {
   g.result.style.display = 'none';
   toggleResultPane();
 
-  if (window.innerWidth > 1200) {
+  if (window.innerWidth >= 1000) {
     toggleSourcePane(htmlParts.js.button);
   }
 

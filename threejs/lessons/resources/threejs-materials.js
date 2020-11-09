@@ -1,4 +1,4 @@
-import * as THREE from '../../resources/threejs/r110/build/three.module.js';
+import * as THREE from '../../resources/threejs/r122/build/three.module.js';
 import {threejsLessonUtils} from './threejs-lesson-utils.js';
 
 {
@@ -32,9 +32,10 @@ import {threejsLessonUtils} from './threejs-lesson-utils.js';
 
   function basicLambertPhongExample(MaterialCtor, lowPoly, params = {}) {
     const geometry = lowPoly ? lowPolySphereGeometry : highPolySphereGeometry;
-    const material = new MaterialCtor(Object.assign({
+    const material = new MaterialCtor({
       color: 'hsl(210,50%,50%)',
-    }, params));
+      ...params,
+    });
     return {
       obj3D: new THREE.Mesh(geometry, material),
       trackball: lowPoly,
@@ -76,7 +77,7 @@ import {threejsLessonUtils} from './threejs-lesson-utils.js';
         const material = new MatCtor({
           color,
           roughness: r / (numRough - 1),
-          metalness: m / (numMetal - 1),
+          metalness: 1 - m / (numMetal - 1),
         });
         const mesh = new THREE.Mesh(highPolySphereGeometry, material);
         row.push(mesh);

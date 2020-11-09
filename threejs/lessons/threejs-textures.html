@@ -37,24 +37,34 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Using textures in three.js" />
-<meta name="keywords" content="webgl graphics three.js" />
-<meta name="thumbnail" content="https://threejsfundamentals.org/threejs/lessons/screenshots/threejs-textures_en.jpg" />
+<meta name="description" content="Using textures in three.js">
+<meta name="keywords" content="webgl graphics three.js">
+<meta name="thumbnail" content="https://threejsfundamentals.org/threejs/lessons/screenshots/threejs-textures_en.jpg">
 
-<meta property="og:title" content="Three.js Textures" />
-<meta property="og:type" content="website" />
-<meta property="og:image" content="https://threejsfundamentals.org/threejs/lessons/screenshots/threejs-textures_en.jpg" />
-<meta property="og:description" content="Using textures in three.js" />
-<meta property="og:url" content="https://threejsfundamentals.org/threejs/lessons/threejs-textures.html" />
+<meta property="og:title" content="Three.js Textures">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://threejsfundamentals.org/threejs/lessons/screenshots/threejs-textures_en.jpg">
+<meta property="og:description" content="Using textures in three.js">
+<meta property="og:url" content="https://threejsfundamentals.org/threejs/lessons/threejs-textures.html">
 
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="@greggman" />
-<meta name="twitter:creator" content="@greggman" />
-<meta name="twitter:domain" content="threejsfundamentals.org" />
-<meta name="twitter:title" content="Three.js Textures" />
-<meta name="twitter:url" content="https://threejsfundamentals.org/threejs/lessons/threejs-textures.html" />
-<meta name="twitter:description" content="Using textures in three.js" />
-<meta name="twitter:image:src" content="https://threejsfundamentals.org/threejs/lessons/screenshots/threejs-textures_en.jpg" />
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@greggman">
+<meta name="twitter:creator" content="@greggman">
+<meta name="twitter:domain" content="threejsfundamentals.org">
+<meta name="twitter:title" content="Three.js Textures">
+<meta name="twitter:url" content="https://threejsfundamentals.org/threejs/lessons/threejs-textures.html">
+<meta name="twitter:description" content="Using textures in three.js">
+<meta name="twitter:image:src" content="https://threejsfundamentals.org/threejs/lessons/screenshots/threejs-textures_en.jpg">
+
+  <link rel="alternate" hreflang="en" href="https://webglfundamentals.org/threejs/lessons/threejs-textures.html">
+  <link rel="alternate" hreflang="fr" href="https://webglfundamentals.org/threejs/lessons/fr/threejs-textures.html">
+  <link rel="alternate" hreflang="ja" href="https://webglfundamentals.org/threejs/lessons/ja/threejs-textures.html">
+  <link rel="alternate" hreflang="kr" href="https://webglfundamentals.org/threejs/lessons/kr/threejs-textures.html">
+  <link rel="alternate" hreflang="ru" href="https://webglfundamentals.org/threejs/lessons/ru/threejs-textures.html">
+  <link rel="alternate" hreflang="zh_cn" href="https://webglfundamentals.org/threejs/lessons/zh_cn/threejs-textures.html">
+
+
+
 
 <script type="application/ld+json">
 {
@@ -95,13 +105,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <link href="/threejs/lessons/resources/threejsfundamentals-icon.png" rel="shortcut icon" type="image/png">
 <link rel="apple-touch-icon" href="/threejs/lessons/resources/threejsfundamentals-icon.png">
 <link rel="icon" href="/threejs/lessons/resources/threejsfundamentals-icon.png">
-<link rel="stylesheet" href="/threejs/lessons/resources/lesson.css" />
+
+<link rel="stylesheet" href="/threejs/lessons/lang.css">
+<link rel="stylesheet" href="/threejs/lessons/resources/lesson.css">
 </head>
 <body>
 <div class="threejs_navbar">
   <div>
     <select class="language">
     <option value="/threejs/lessons/threejs-textures.html" selected>English</a>
+    <option value="/threejs/lessons/fr/threejs-textures.html" >Français</a>
+    <option value="/threejs/lessons/ja/threejs-textures.html" >日本語</a>
+    <option value="/threejs/lessons/kr/threejs-textures.html" >한국어</a>
     <option value="/threejs/lessons/ru/threejs-textures.html" >Русский</a>
     <option value="/threejs/lessons/zh_cn/threejs-textures.html" >中文</a>
 </select>
@@ -237,19 +252,19 @@ put this image on cube.</p>
   <img src="../resources/images/wall.jpg" style="width: 600px;" class="border" >
 </div>
 
-<p>We&#39;ll modify one of our first samples. All we need to do is create a <code>TextureLoader</code>. Call its
-<a href="TextureLoader.load"><code>load</code></a> method with the URL of an
-image and and set the material&#39;s <code>map</code> property to the result instead of setting its <code>color</code>.</p>
-<pre class="prettyprint"><code class="lang-js">+const loader = new THREE.TextureLoader();
+<p>We&#39;ll modify one of our first samples. All we need to do is create a <code class="notranslate" translate="no">TextureLoader</code>. Call its
+<a href="TextureLoader.load"><code class="notranslate" translate="no">load</code></a> method with the URL of an
+image and and set the material&#39;s <code class="notranslate" translate="no">map</code> property to the result instead of setting its <code class="notranslate" translate="no">color</code>.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">+const loader = new THREE.TextureLoader();
 
 const material = new THREE.MeshBasicMaterial({
 -  color: 0xFF8844,
 +  map: loader.load(&#39;resources/images/wall.jpg&#39;),
 });
 </code></pre>
-<p>Note that we&#39;re using <code>MeshBasicMaterial</code> so no need for any lights.</p>
-<p><div class="threejs_example_container">
-  <div><iframe class="threejs_example" style=" " src="/threejs/resources/editor.html?url=/threejs/lessons/..%2Fthreejs-textured-cube.html"></iframe></div>
+<p>Note that we&#39;re using <code class="notranslate" translate="no">MeshBasicMaterial</code> so no need for any lights.</p>
+<p><div translate="no" class="threejs_example_container notranslate">
+  <div><iframe class="threejs_example notranslate" translate="no" style=" " src="/threejs/resources/editor.html?url=/threejs/lessons/..%2Fthreejs-textured-cube.html"></iframe></div>
   <a class="threejs_center" href="/threejs/lessons/../threejs-textured-cube.html" target="_blank">click here to open in a separate window</a>
 </div>
 
@@ -269,8 +284,8 @@ const material = new THREE.MeshBasicMaterial({
   </div>
 </div>
 
-<p>We just make 6 materials and pass them as an array when we create the <code>Mesh</code></p>
-<pre class="prettyprint"><code class="lang-js">const loader = new THREE.TextureLoader();
+<p>We just make 6 materials and pass them as an array when we create the <code class="notranslate" translate="no">Mesh</code></p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const loader = new THREE.TextureLoader();
 
 -const material = new THREE.MeshBasicMaterial({
 -  map: loader.load(&#39;resources/images/wall.jpg&#39;),
@@ -287,16 +302,16 @@ const material = new THREE.MeshBasicMaterial({
 +const cube = new THREE.Mesh(geometry, materials);
 </code></pre>
 <p>It works!</p>
-<p><div class="threejs_example_container">
-  <div><iframe class="threejs_example" style=" " src="/threejs/resources/editor.html?url=/threejs/lessons/..%2Fthreejs-textured-cube-6-textures.html"></iframe></div>
+<p><div translate="no" class="threejs_example_container notranslate">
+  <div><iframe class="threejs_example notranslate" translate="no" style=" " src="/threejs/resources/editor.html?url=/threejs/lessons/..%2Fthreejs-textured-cube-6-textures.html"></iframe></div>
   <a class="threejs_center" href="/threejs/lessons/../threejs-textured-cube-6-textures.html" target="_blank">click here to open in a separate window</a>
 </div>
 
 </p>
 <p>It should be noted though that not all geometry types supports multiple
-materials. <code>BoxGeometry</code> and <code>BoxBufferGeometry</code> can use 6 materials one for each face.
-<code>ConeGeometry</code> and <code>ConeBufferGeometry</code> can use 2 materials, one for the bottom and one for the cone.
-<code>CylinderGeometry</code> and <code>CylinderBufferGeometry</code> can use 3 materials, bottom, top, and side.
+materials. <code class="notranslate" translate="no">BoxGeometry</code> and <code class="notranslate" translate="no">BoxBufferGeometry</code> can use 6 materials one for each face.
+<code class="notranslate" translate="no">ConeGeometry</code> and <code class="notranslate" translate="no">ConeBufferGeometry</code> can use 2 materials, one for the bottom and one for the cone.
+<code class="notranslate" translate="no">CylinderGeometry</code> and <code class="notranslate" translate="no">CylinderBufferGeometry</code> can use 3 materials, bottom, top, and side.
 For other cases you will need to build or load custom geometry and/or modify texture coordinates.</p>
 <p>It&#39;s far more common in other 3D engines and far more performant to use a
 <a href="https://en.wikipedia.org/wiki/Texture_atlas">Texture Atlas</a>
@@ -310,9 +325,9 @@ We&#39;ll go over them when we start <a href="threejs-custom-geometry.html">buil
 <h2 id="-a-name-loading-a-loading-textures"><a name="loading"></a> Loading Textures</h2>
 <h3 id="-a-name-easy-a-the-easy-way"><a name="easy"></a> The Easy Way</h3>
 <p>Most of the code on this site uses the easiest method of loading textures.
-We create a <code>TextureLoader</code> and then call its <a href="TextureLoader.load"><code>load</code></a> method.
-This returns a <code>Texture</code> object.</p>
-<pre class="prettyprint"><code class="lang-js">const texture = loader.load(&#39;resources/images/flower-1.jpg&#39;);
+We create a <code class="notranslate" translate="no">TextureLoader</code> and then call its <a href="TextureLoader.load"><code class="notranslate" translate="no">load</code></a> method.
+This returns a <code class="notranslate" translate="no">Texture</code> object.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const texture = loader.load(&#39;resources/images/flower-1.jpg&#39;);
 </code></pre>
 <p>It&#39;s important to note that using this method our texture will be transparent until
 the image is loaded asynchronously by three.js at which point it will update the texture
@@ -321,11 +336,11 @@ with the downloaded image.</p>
 page will start rendering immediately. That&#39;s probably okay for a great many use cases
 but if we want we can ask three.js to tell us when the texture has finished downloading.</p>
 <h3 id="-a-name-wait1-a-waiting-for-a-texture-to-load"><a name="wait1"></a> Waiting for a texture to load</h3>
-<p>To wait for a texture to load the <code>load</code> method of the texture loader takes a callback
+<p>To wait for a texture to load the <code class="notranslate" translate="no">load</code> method of the texture loader takes a callback
 that will be called when the texture has finished loading. Going back to our top example
-we can wait for the texture to load before creating our <code>Mesh</code> and adding it to scene
+we can wait for the texture to load before creating our <code class="notranslate" translate="no">Mesh</code> and adding it to scene
 like this</p>
-<pre class="prettyprint"><code class="lang-js">const loader = new THREE.TextureLoader();
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const loader = new THREE.TextureLoader();
 loader.load(&#39;resources/images/wall.jpg&#39;, (texture) =&gt; {
   const material = new THREE.MeshBasicMaterial({
     map: texture,
@@ -337,17 +352,17 @@ loader.load(&#39;resources/images/wall.jpg&#39;, (texture) =&gt; {
 </code></pre>
 <p>Unless you clear your browser&#39;s cache and have a slow connection you&#39;re unlikely
 to see the any difference but rest assured it is waiting for the texture to load.</p>
-<p><div class="threejs_example_container">
-  <div><iframe class="threejs_example" style=" " src="/threejs/resources/editor.html?url=/threejs/lessons/..%2Fthreejs-textured-cube-wait-for-texture.html"></iframe></div>
+<p><div translate="no" class="threejs_example_container notranslate">
+  <div><iframe class="threejs_example notranslate" translate="no" style=" " src="/threejs/resources/editor.html?url=/threejs/lessons/..%2Fthreejs-textured-cube-wait-for-texture.html"></iframe></div>
   <a class="threejs_center" href="/threejs/lessons/../threejs-textured-cube-wait-for-texture.html" target="_blank">click here to open in a separate window</a>
 </div>
 
 </p>
 <h3 id="-a-name-waitmany-a-waiting-for-multiple-textures-to-load"><a name="waitmany"></a> Waiting for multiple textures to load</h3>
-<p>To wait until all textures have loaded you can use a <code>LoadingManager</code>. Create one
-and pass it to the <code>TextureLoader</code> then set its  <a href="LoadingManager.onLoad"><code>onLoad</code></a>
+<p>To wait until all textures have loaded you can use a <code class="notranslate" translate="no">LoadingManager</code>. Create one
+and pass it to the <code class="notranslate" translate="no">TextureLoader</code> then set its  <a href="LoadingManager.onLoad"><code class="notranslate" translate="no">onLoad</code></a>
 property to a callback.</p>
-<pre class="prettyprint"><code class="lang-js">+const loadManager = new THREE.LoadingManager();
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">+const loadManager = new THREE.LoadingManager();
 *const loader = new THREE.TextureLoader(loadManager);
 
 const materials = [
@@ -365,10 +380,10 @@ const materials = [
 +  cubes.push(cube);  // add to our list of cubes to rotate
 +};
 </code></pre>
-<p>The <code>LoadingManager</code> also has an <a href="LoadingManager.onProgress"><code>onProgress</code></a> property
+<p>The <code class="notranslate" translate="no">LoadingManager</code> also has an <a href="LoadingManager.onProgress"><code class="notranslate" translate="no">onProgress</code></a> property
 we can set to another callback to show a progress indicator.</p>
 <p>First we&#39;ll add a progress bar in HTML</p>
-<pre class="prettyprint"><code class="lang-html">&lt;body&gt;
+<pre class="prettyprint notranslate" translate="no"><code class="lang-html">&lt;body&gt;
   &lt;canvas id=&quot;c&quot;&gt;&lt;/canvas&gt;
 +  &lt;div id=&quot;loading&quot;&gt;
 +    &lt;div class=&quot;progress&quot;&gt;&lt;div class=&quot;progressbar&quot;&gt;&lt;/div&gt;&lt;/div&gt;
@@ -376,7 +391,7 @@ we can set to another callback to show a progress indicator.</p>
 &lt;/body&gt;
 </code></pre>
 <p>and the CSS for it</p>
-<pre class="prettyprint"><code class="lang-css">#loading {
+<pre class="prettyprint notranslate" translate="no"><code class="lang-css">#loading {
     position: fixed;
     top: 0;
     left: 0;
@@ -399,10 +414,10 @@ we can set to another callback to show a progress indicator.</p>
     transform: scaleX(0);
 }
 </code></pre>
-<p>Then in the code we&#39;ll update the scale of the <code>progressbar</code> in our <code>onProgress</code> callback. It gets
+<p>Then in the code we&#39;ll update the scale of the <code class="notranslate" translate="no">progressbar</code> in our <code class="notranslate" translate="no">onProgress</code> callback. It gets
 called with the URL of the last item loaded, the number of items loaded so far, and the total
 number of items loaded.</p>
-<pre class="prettyprint"><code class="lang-js">+const loadingElem = document.querySelector(&#39;#loading&#39;);
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">+const loadingElem = document.querySelector(&#39;#loading&#39;);
 +const progressBarElem = loadingElem.querySelector(&#39;.progressbar&#39;);
 
 loadManager.onLoad = () =&gt; {
@@ -419,8 +434,8 @@ loadManager.onLoad = () =&gt; {
 </code></pre>
 <p>Unless you clear your cache and have a slow connection you might not see
 the loading bar.</p>
-<p><div class="threejs_example_container">
-  <div><iframe class="threejs_example" style=" " src="/threejs/resources/editor.html?url=/threejs/lessons/..%2Fthreejs-textured-cube-wait-for-all-textures.html"></iframe></div>
+<p><div translate="no" class="threejs_example_container notranslate">
+  <div><iframe class="threejs_example notranslate" translate="no" style=" " src="/threejs/resources/editor.html?url=/threejs/lessons/..%2Fthreejs-textured-cube-wait-for-all-textures.html"></iframe></div>
   <a class="threejs_center" href="/threejs/lessons/../threejs-textured-cube-wait-for-all-textures.html" target="_blank">click here to open in a separate window</a>
 </div>
 
@@ -437,7 +452,7 @@ permission headers then you can&#39;t use the images from that server.</p>
 hosted on their servers in three.js. Most other websites do not.</p>
 <h2 id="-a-name-memory-a-memory-usage"><a name="memory"></a> Memory Usage</h2>
 <p>Textures are often the part of a three.js app that use the most memory. It&#39;s important to understand
-that <em>in general</em>, textures take <code>width * height * 4 * 1.33</code> bytes of memory.</p>
+that <em>in general</em>, textures take <code class="notranslate" translate="no">width * height * 4 * 1.33</code> bytes of memory.</p>
 <p>Notice that says nothing about compression. I can make a .jpg image and set its compression super
 high. For example let&#39;s say I was making a scene of a house. Inside the house there is a table
 and I decide to put this wood texture on the top surface of the table</p>
@@ -446,7 +461,7 @@ and I decide to put this wood texture on the top surface of the table</p>
 <p>That image is only 157k so it will download relatively quickly but <a href="resources/images/compressed-but-large-wood-texture.jpg">it is actually
 3024 x 3761 pixels in size</a>.
 Following the equation above that&#39;s</p>
-<pre class="prettyprint"><code>3024 * 3761 * 4 * 1.33 = 60505764.5
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">3024 * 3761 * 4 * 1.33 = 60505764.5
 </code></pre><p>That image will take <strong>60 MEG OF MEMORY!</strong> in three.js.
 A few textures like that and you&#39;ll be out of memory.</p>
 <p>I bring this up because it&#39;s important to know that using textures has a hidden cost.
@@ -465,7 +480,7 @@ for non-image data like normal maps, and other kinds of non-image maps which we&
 less memory than a PNG in WebGL. See above.</p>
 <h2 id="-a-name-filtering-and-mips-a-filtering-and-mips"><a name="filtering-and-mips"></a> Filtering and Mips</h2>
 <p>Let&#39;s apply this 16x16 texture</p>
-<div class="threejs_center"><img src="resources/images/mip-low-res-enlarged.png" class="border" align="center"></div>
+<div class="threejs_center"><img src="resources/images/mip-low-res-enlarged.png" class="nobg" align="center"></div>
 
 <p>To a cube</p>
 <div class="spread"><div data-diagram="filterCube"></div></div>
@@ -486,7 +501,7 @@ using mipmaps.</p>
 mip where the pixels have been blended to make the next smaller mip. Mips are created
 until we get all the way to a 1x1 pixel mip. For the image above all of the mips would
 end up being something like this</p>
-<div class="threejs_center"><img src="resources/images/mipmap-low-res-enlarged.png" align="center"></div>
+<div class="threejs_center"><img src="resources/images/mipmap-low-res-enlarged.png" class="nobg" align="center"></div>
 
 <p>Now, when the cube is drawn so small that it&#39;s only 1 or 2 pixels large the GPU can choose
 to use just the smallest or next to smallest mip level to decide what color to make the
@@ -495,11 +510,11 @@ tiny cube.</p>
 larger than its original size and what happens when it&#39;s drawn smaller than its
 original size.</p>
 <p>For setting the filter when the texture is drawn larger than its original size
-you set <a href="Texture.magFilter"><code>texture.magFilter</code></a> property to either <code>THREE.NearestFilter</code> or
- <code>THREE.LinearFilter</code>.  <code>NearestFilter</code> means
+you set <a href="Texture.magFilter"><code class="notranslate" translate="no">texture.magFilter</code></a> property to either <code class="notranslate" translate="no">THREE.NearestFilter</code> or
+ <code class="notranslate" translate="no">THREE.LinearFilter</code>.  <code class="notranslate" translate="no">NearestFilter</code> means
 just pick the closet single pixel from the original texture. With a low
 resolution texture this gives you a very pixelated look like Minecraft.</p>
-<p><code>LinearFilter</code> means choose the 4 pixels from the texture that are closest
+<p><code class="notranslate" translate="no">LinearFilter</code> means choose the 4 pixels from the texture that are closest
 to the where we should be choosing a color from and blend them in the
 appropriate proportions relative to how far away the actual point is from
 each of the 4 pixels.</p>
@@ -515,24 +530,24 @@ each of the 4 pixels.</p>
 </div>
 
 <p>For setting the filter when the texture is drawn smaller than its original size
-you set the <a href="Texture.minFilter"><code>texture.minFilter</code></a> property to one of 6 values.</p>
+you set the <a href="Texture.minFilter"><code class="notranslate" translate="no">texture.minFilter</code></a> property to one of 6 values.</p>
 <ul>
-<li><p><code>THREE.NearestFilter</code></p>
+<li><p><code class="notranslate" translate="no">THREE.NearestFilter</code></p>
 <p> same as above, choose the closest pixel in the texture</p>
 </li>
-<li><p><code>THREE.LinearFilter</code></p>
+<li><p><code class="notranslate" translate="no">THREE.LinearFilter</code></p>
 <p> same as above, choose 4 pixels from the texture and blend them</p>
 </li>
-<li><p><code>THREE.NearestMipmapNearestFilter</code></p>
+<li><p><code class="notranslate" translate="no">THREE.NearestMipmapNearestFilter</code></p>
 <p> choose the appropriate mip then choose one pixel</p>
 </li>
-<li><p><code>THREE.NearestMipmapLinearFilter</code></p>
+<li><p><code class="notranslate" translate="no">THREE.NearestMipmapLinearFilter</code></p>
 <p> choose 2 mips, choose one pixel from each, blend the 2 pixels</p>
 </li>
-<li><p><code>THREE.LinearMipmapNearestFilter</code></p>
+<li><p><code class="notranslate" translate="no">THREE.LinearMipmapNearestFilter</code></p>
 <p> chose the appropriate mip then choose 4 pixels and blend them</p>
 </li>
-<li><p><code>THREE.LinearMipmapLinearFilter</code></p>
+<li><p><code class="notranslate" translate="no">THREE.LinearMipmapLinearFilter</code></p>
 <p>choose 2 mips, choose 4 pixels from each and blend all 8 into 1 pixel</p>
 </li>
 </ul>
@@ -569,12 +584,12 @@ you set the <a href="Texture.minFilter"><code>texture.minFilter</code></a> prope
   </div>
 </div>
 
-<p>One thing to notice is the top left and top middle using <code>NearestFilter</code> and <code>LinearFilter</code>
+<p>One thing to notice is the top left and top middle using <code class="notranslate" translate="no">NearestFilter</code> and <code class="notranslate" translate="no">LinearFilter</code>
 don&#39;t use the mips. Because of that they flicker in the distance because the GPU is
 picking pixels from the original texture. On the left just one pixel is chosen and
 in the middle 4 are chosen and blended but it&#39;s not enough come up with a good
 representative color. The other 4 strips do better with the bottom right,
-<code>LinearMipmapLinearFilter</code> being best.</p>
+<code class="notranslate" translate="no">LinearMipmapLinearFilter</code> being best.</p>
 <p>If you click the picture above it will toggle between the texture we&#39;ve been using above
 and a texture where every mip level is a different color.</p>
 <div class="threejs_center">
@@ -594,78 +609,78 @@ to be the difference between fast and slow as we progress further into these art
 we&#39;ll eventually have materials that use 4 or 5 textures all at once. 4 textures * 8
 pixels per texture is looking up 32 pixels for ever pixel rendered.
 This can be especially important to consider on mobile devices.</p>
-<h2 id="-a-href-uvmanipulation-a-repeating-offseting-rotating-wrapping-a-texture"><a href="uvmanipulation"></a> Repeating, offseting, rotating, wrapping a texture</h2>
+<h2 id="-a-name-uvmanipulation-a-repeating-offseting-rotating-wrapping-a-texture"><a name="uvmanipulation"></a> Repeating, offseting, rotating, wrapping a texture</h2>
 <p>Textures have settings for repeating, offseting, and rotating a texture.</p>
 <p>By default textures in three.js do not repeat. To set whether or not a
-texture repeats there are 2 properties, <a href="Texture.wrapS"><code>wrapS</code></a> for horizontal wrapping
-and <a href="Texture.wrapT"><code>wrapT</code></a> for vertical wrapping.</p>
+texture repeats there are 2 properties, <a href="Texture.wrapS"><code class="notranslate" translate="no">wrapS</code></a> for horizontal wrapping
+and <a href="Texture.wrapT"><code class="notranslate" translate="no">wrapT</code></a> for vertical wrapping.</p>
 <p>They can be set to one of:</p>
 <ul>
-<li><p><code>THREE.ClampToEdgeWrapping</code></p>
+<li><p><code class="notranslate" translate="no">THREE.ClampToEdgeWrapping</code></p>
 <p> the last pixel on each edge is repeated forever</p>
 </li>
-<li><p><code>THREE.RepeatWrapping</code></p>
+<li><p><code class="notranslate" translate="no">THREE.RepeatWrapping</code></p>
 <p> the texture is repeated</p>
 </li>
-<li><p><code>THREE.MirroredRepeatWrapping</code></p>
+<li><p><code class="notranslate" translate="no">THREE.MirroredRepeatWrapping</code></p>
 <p> the texture is mirrored and repeated</p>
 </li>
 </ul>
 <p>For example to turn on wrapping in both directions:</p>
-<pre class="prettyprint"><code class="lang-js">someTexture.wrapS = THREE.RepeatWrapping;
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">someTexture.wrapS = THREE.RepeatWrapping;
 someTexture.wrapT = THREE.RepeatWrapping;
 </code></pre>
 <p>Repeating is set with the [repeat] repeat property.</p>
-<pre class="prettyprint"><code class="lang-js">const timesToRepeatHorizontally = 4;
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const timesToRepeatHorizontally = 4;
 const timesToRepeatVertically = 2;
 someTexture.repeat.set(timesToRepeatHorizontally, timesToRepeatVertically);
 </code></pre>
-<p>Offseting the texture can be done by setting the <code>offset</code> property. Textures
+<p>Offseting the texture can be done by setting the <code class="notranslate" translate="no">offset</code> property. Textures
 are offset with units where 1 unit = 1 texture size. On other words 0 = no offset
 and 1 = offset one full texture amount.</p>
-<pre class="prettyprint"><code class="lang-js">const xOffset = .5;   // offset by half the texture
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const xOffset = .5;   // offset by half the texture
 const yOffset = .25;  // offset by 1/4 the texture
 someTexture.offset.set(xOffset, yOffset);
 </code></pre>
-<p>Rotating the texture can be set by setting the <code>rotation</code> property in radians
-as well as the <code>center</code> property for choosing the center of rotation.
+<p>Rotating the texture can be set by setting the <code class="notranslate" translate="no">rotation</code> property in radians
+as well as the <code class="notranslate" translate="no">center</code> property for choosing the center of rotation.
 It defaults to 0,0 which rotates from the bottom left corner. Like offset
-these units are in texture size so setting them to <code>.5, .5</code> would rotate
+these units are in texture size so setting them to <code class="notranslate" translate="no">.5, .5</code> would rotate
 around the center of the texture.</p>
-<pre class="prettyprint"><code class="lang-js">someTexture.center.set(.5, .5);
-someTexture.rotation = THREE.Math.degToRad(45);
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">someTexture.center.set(.5, .5);
+someTexture.rotation = THREE.MathUtils.degToRad(45);
 </code></pre>
 <p>Let&#39;s modify the top sample above to play with these values</p>
 <p>First we&#39;ll keep a reference to the texture so we can manipulate it</p>
-<pre class="prettyprint"><code class="lang-js">+const texture = loader.load(&#39;resources/images/wall.jpg&#39;);
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">+const texture = loader.load(&#39;resources/images/wall.jpg&#39;);
 const material = new THREE.MeshBasicMaterial({
 -  map: loader.load(&#39;resources/images/wall.jpg&#39;);
 +  map: texture,
 });
 </code></pre>
 <p>Then we&#39;ll use <a href="https://github.com/dataarts/dat.gui">dat.GUI</a> again to provide a simple interface.</p>
-<pre class="prettyprint"><code class="lang-js">import {GUI} from &#39;../3rdparty/dat.gui.module.js&#39;;
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">import {GUI} from &#39;../3rdparty/dat.gui.module.js&#39;;
 </code></pre>
 <p>As we did in previous dat.GUI examples we&#39;ll use a simple class to
 give dat.GUI an object that it can manipulate in degrees
 but that will set a property in radians.</p>
-<pre class="prettyprint"><code class="lang-js">class DegRadHelper {
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">class DegRadHelper {
   constructor(obj, prop) {
     this.obj = obj;
     this.prop = prop;
   }
   get value() {
-    return THREE.Math.radToDeg(this.obj[this.prop]);
+    return THREE.MathUtils.radToDeg(this.obj[this.prop]);
   }
   set value(v) {
-    this.obj[this.prop] = THREE.Math.degToRad(v);
+    this.obj[this.prop] = THREE.MathUtils.degToRad(v);
   }
 }
 </code></pre>
-<p>We also need a class that will convert from a string like <code>&quot;123&quot;</code> into
-a number like <code>123</code> since three.js requires numbers for enum settings
-like <code>wrapS</code> and <code>wrapT</code> but dat.GUI only uses strings for enums.</p>
-<pre class="prettyprint"><code class="lang-js">class StringToNumberHelper {
+<p>We also need a class that will convert from a string like <code class="notranslate" translate="no">&quot;123&quot;</code> into
+a number like <code class="notranslate" translate="no">123</code> since three.js requires numbers for enum settings
+like <code class="notranslate" translate="no">wrapS</code> and <code class="notranslate" translate="no">wrapT</code> but dat.GUI only uses strings for enums.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">class StringToNumberHelper {
   constructor(obj, prop) {
     this.obj = obj;
     this.prop = prop;
@@ -679,7 +694,7 @@ like <code>wrapS</code> and <code>wrapT</code> but dat.GUI only uses strings for
 }
 </code></pre>
 <p>Using those classes we can setup a simple GUI for the settings above</p>
-<pre class="prettyprint"><code class="lang-js">const wrapModes = {
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const wrapModes = {
   &#39;ClampToEdgeWrapping&#39;: THREE.ClampToEdgeWrapping,
   &#39;RepeatWrapping&#39;: THREE.RepeatWrapping,
   &#39;MirroredRepeatWrapping&#39;: THREE.MirroredRepeatWrapping,
@@ -705,11 +720,11 @@ gui.add(texture.center, &#39;y&#39;, -.5, 1.5, .01).name(&#39;texture.center.y&#
 gui.add(new DegRadHelper(texture, &#39;rotation&#39;), &#39;value&#39;, -360, 360)
   .name(&#39;texture.rotation&#39;);
 </code></pre>
-<p>The last thing to note about the example is that if you change <code>wrapS</code> or
-<code>wrapT</code> on the texture you must also set <a href="Texture.needsUpdate"><code>texture.needsUpdate</code></a>
+<p>The last thing to note about the example is that if you change <code class="notranslate" translate="no">wrapS</code> or
+<code class="notranslate" translate="no">wrapT</code> on the texture you must also set <a href="Texture.needsUpdate"><code class="notranslate" translate="no">texture.needsUpdate</code></a>
 so three.js knows to apply those settings. The other settings are automatically applied.</p>
-<p><div class="threejs_example_container">
-  <div><iframe class="threejs_example" style=" " src="/threejs/resources/editor.html?url=/threejs/lessons/..%2Fthreejs-textured-cube-adjust.html"></iframe></div>
+<p><div translate="no" class="threejs_example_container notranslate">
+  <div><iframe class="threejs_example notranslate" translate="no" style=" " src="/threejs/resources/editor.html?url=/threejs/lessons/..%2Fthreejs-textured-cube-adjust.html"></iframe></div>
   <a class="threejs_center" href="/threejs/lessons/../threejs-textured-cube-adjust.html" target="_blank">click here to open in a separate window</a>
 </div>
 
@@ -729,7 +744,6 @@ normalmap ?
 metalness
 roughness
 -->
-<p><canvas id="c"></canvas></p>
 <p><link rel="stylesheet" href="resources/threejs-textures.css"></p>
 <script type="module" src="resources/threejs-textures.js"></script>
 
@@ -737,6 +751,9 @@ roughness
     <div class="lesson-sidebar">
         <select class="language">
     <option value="/threejs/lessons/threejs-textures.html" selected>English</a>
+    <option value="/threejs/lessons/fr/threejs-textures.html" >Français</a>
+    <option value="/threejs/lessons/ja/threejs-textures.html" >日本語</a>
+    <option value="/threejs/lessons/kr/threejs-textures.html" >한국어</a>
     <option value="/threejs/lessons/ru/threejs-textures.html" >Русский</a>
     <option value="/threejs/lessons/zh_cn/threejs-textures.html" >中文</a>
 </select>
@@ -749,6 +766,37 @@ roughness
 <li><a href="/threejs/lessons/threejs-responsive.html">Responsive Design</a></li>
 <li><a href="/threejs/lessons/threejs-prerequisites.html">Prerequisites</a></li>
 <li><a href="/threejs/lessons/threejs-setup.html">Setup</a></li>
+        </ul>
+  <li>Fundamentals</li>
+        <ul>
+          <li><a href="/threejs/lessons/threejs-primitives.html">Primitives</a></li>
+<li><a href="/threejs/lessons/threejs-scenegraph.html">Scenegraph</a></li>
+<li><a href="/threejs/lessons/threejs-materials.html">Materials</a></li>
+<li><a href="/threejs/lessons/threejs-textures.html">Textures</a></li>
+<li><a href="/threejs/lessons/threejs-lights.html">Lights</a></li>
+<li><a href="/threejs/lessons/threejs-cameras.html">Cameras</a></li>
+<li><a href="/threejs/lessons/threejs-shadows.html">Shadows</a></li>
+<li><a href="/threejs/lessons/threejs-fog.html">Fog</a></li>
+<li><a href="/threejs/lessons/threejs-rendertargets.html">Render Targets</a></li>
+<li><a href="/threejs/lessons/threejs-custom-geometry.html">Custom Geometry</a></li>
+<li><a href="/threejs/lessons/threejs-custom-buffergeometry.html">Custom BufferGeometry</a></li>
+        </ul>
+  <li>Tips</li>
+        <ul>
+          <li><a href="/threejs/lessons/threejs-rendering-on-demand.html">Rendering On Demand</a></li>
+<li><a href="/threejs/lessons/threejs-debugging-javascript.html">Debugging JavaScript</a></li>
+<li><a href="/threejs/lessons/threejs-debugging-glsl.html">Debugging GLSL</a></li>
+<li><a href="/threejs/lessons/threejs-tips.html#screenshot">Taking a screenshot</a></li>
+<li><a href="/threejs/lessons/threejs-tips.html#preservedrawingbuffer">Prevent the Canvas Being Cleared</a></li>
+<li><a href="/threejs/lessons/threejs-tips.html#tabindex">Get Keyboard Input From a Canvas</a></li>
+<li><a href="/threejs/lessons/threejs-tips.html#transparent-canvas">Make the Canvas Transparent</a></li>
+<li><a href="/threejs/lessons/threejs-tips.html#html-background">Use three.js as Background in HTML</a></li>
+        </ul>
+  <li>Optimization</li>
+        <ul>
+          <li><a href="/threejs/lessons/threejs-optimize-lots-of-objects.html">Optimizing Lots of Objects</a></li>
+<li><a href="/threejs/lessons/threejs-optimize-lots-of-objects-animated.html">Optimizing Lots of Objects Animated</a></li>
+<li><a href="/threejs/lessons/threejs-offscreencanvas.html">Using OffscreenCanvas in a Web Worker</a></li>
         </ul>
   <li>Solutions</li>
         <ul>
@@ -771,40 +819,9 @@ roughness
         </ul>
   <li>WebVR</li>
         <ul>
-          <li><a href="/threejs/lessons/threejs-webvr.html">WebVR - Basics</a></li>
-<li><a href="/threejs/lessons/threejs-webvr-look-to-select.html">WebVR - Look To Select</a></li>
-<li><a href="/threejs/lessons/threejs-webvr-point-to-select.html">WebVR - Point To Select</a></li>
-        </ul>
-  <li>Optimization</li>
-        <ul>
-          <li><a href="/threejs/lessons/threejs-optimize-lots-of-objects.html">Optimizing Lots of Objects</a></li>
-<li><a href="/threejs/lessons/threejs-optimize-lots-of-objects-animated.html">Optimizing Lots of Objects Animated</a></li>
-<li><a href="/threejs/lessons/threejs-offscreencanvas.html">Using OffscreenCanvas in a Web Worker</a></li>
-        </ul>
-  <li>Tips</li>
-        <ul>
-          <li><a href="/threejs/lessons/threejs-rendering-on-demand.html">Rendering On Demand</a></li>
-<li><a href="/threejs/lessons/threejs-debugging-javascript.html">Debugging JavaScript</a></li>
-<li><a href="/threejs/lessons/threejs-debugging-glsl.html">Debugging GLSL</a></li>
-<li><a href="/threejs/lessons/threejs-tips.html#screenshot">Taking a screenshot</a></li>
-<li><a href="/threejs/lessons/threejs-tips.html#preservedrawingbuffer">Prevent the Canvas Being Cleared</a></li>
-<li><a href="/threejs/lessons/threejs-tips.html#tabindex">Get Keyboard Input From a Canvas</a></li>
-<li><a href="/threejs/lessons/threejs-tips.html#transparent-canvas">Make the Canvas Transparent</a></li>
-<li><a href="/threejs/lessons/threejs-tips.html#html-background">Use three.js as Background in HTML</a></li>
-        </ul>
-  <li>Fundamentals</li>
-        <ul>
-          <li><a href="/threejs/lessons/threejs-primitives.html">Primitives</a></li>
-<li><a href="/threejs/lessons/threejs-scenegraph.html">Scenegraph</a></li>
-<li><a href="/threejs/lessons/threejs-materials.html">Materials</a></li>
-<li><a href="/threejs/lessons/threejs-textures.html">Textures</a></li>
-<li><a href="/threejs/lessons/threejs-lights.html">Lights</a></li>
-<li><a href="/threejs/lessons/threejs-cameras.html">Cameras</a></li>
-<li><a href="/threejs/lessons/threejs-shadows.html">Shadows</a></li>
-<li><a href="/threejs/lessons/threejs-fog.html">Fog</a></li>
-<li><a href="/threejs/lessons/threejs-rendertargets.html">Render Targets</a></li>
-<li><a href="/threejs/lessons/threejs-custom-geometry.html">Custom Geometry</a></li>
-<li><a href="/threejs/lessons/threejs-custom-buffergeometry.html">Custom BufferGeometry</a></li>
+          <li><a href="/threejs/lessons/threejs-webvr.html">VR - Basics</a></li>
+<li><a href="/threejs/lessons/threejs-webvr-look-to-select.html">VR - Look To Select</a></li>
+<li><a href="/threejs/lessons/threejs-webvr-point-to-select.html">VR - Point To Select</a></li>
         </ul>
   <li>Reference</li>
         <ul>
@@ -858,14 +875,33 @@ roughness
 <script src="/3rdparty/jquery-3.3.1.slim.min.js"></script>
 <script src="/threejs/lessons/resources/prettify.js"></script>
 <script src="/threejs/lessons/resources/lesson.js"></script>
-<script src="//cdn.webglstats.com/stat.js" defer="defer" async="async"></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-120733518-1"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+(function() {
+  if (window.location.hostname.indexOf("threejsfundamentals.org") < 0) {
+      return;
+  }
 
-  gtag('config', 'UA-120733518-1');
+  function addScript(src, fn) {
+    const script = document.createElement('script');
+    const firstScript = document.getElementsByTagName('script')[0];
+    script.async = true;
+    script.defer = true;
+    if (fn) {
+      script.addEventListener('load', fn);
+    }
+    script.src = src;
+    firstScript.parentNode.insertBefore(script, firstScript);
+  }
+
+  addScript('//cdn.webglstats.com/stat.js');
+  addScript('https://www.googletagmanager.com/gtag/js?id=UA-120733518-1', () => {
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-120733518-1');
+  });
+}());
 </script>
 
 

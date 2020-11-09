@@ -243,7 +243,7 @@ $(document).ready(function($){
     Sprite: 'https://threejs.org/docs/#api/objects/Sprite',
     WebGLRenderer: 'https://threejs.org/docs/#api/renderers/WebGLRenderer',
     WebGLRenderTarget: 'https://threejs.org/docs/#api/renderers/WebGLRenderTarget',
-    WebGLRenderTargetCube: 'https://threejs.org/docs/#api/renderers/WebGLRenderTargetCube',
+    WebGLCubeRenderTarget: 'https://threejs.org/docs/#api/renderers/WebGLCubeRenderTarget',
     ShaderChunk: 'https://threejs.org/docs/#api/renderers/shaders/ShaderChunk',
     ShaderLib: 'https://threejs.org/docs/#api/renderers/shaders/ShaderLib',
     UniformsLib: 'https://threejs.org/docs/#api/renderers/shaders/UniformsLib',
@@ -355,11 +355,14 @@ $(document).ready(function($){
   $('pre>code')
     .unwrap()
     .replaceWith(function() {
-      return $('<pre class="prettyprint showlinemods">' + this.innerHTML + '</pre>');
+      return $('<pre class="prettyprint showlinemods notranslate" translate="no">' + this.innerHTML + '</pre>');
     });
   if (window.prettyPrint) {
     window.prettyPrint();
   }
+  $('span[class=com]')
+    .addClass('translate yestranslate')
+    .attr('translate', 'yes');
 
   const params = getQueryParams();
   if (params.doubleSpace || params.doublespace) {
@@ -370,6 +373,9 @@ $(document).ready(function($){
     window.location.href = this.value;
   });
 
+  if (window.threejsLessonUtils) {
+    window.threejsLessonUtils.afterPrettify();
+  }
 });
 }(jQuery));
 

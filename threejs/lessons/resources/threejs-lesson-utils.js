@@ -1,12 +1,16 @@
-import * as THREE from '../../resources/threejs/r110/build/three.module.js';
-import {TrackballControls} from '../../resources/threejs/r110/examples/jsm/controls/TrackballControls.js';
+import * as THREE from '../../resources/threejs/r122/build/three.module.js';
+import {OrbitControls} from '../../resources/threejs/r122/examples/jsm/controls/OrbitControls.js';
 
 export const threejsLessonUtils = {
+  _afterPrettifyFuncs: [],
   init() {
     if (this.renderer) {
       return;
     }
-    const canvas = document.querySelector('#c');
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'c';
+    document.body.appendChild(canvas);
     const renderer = new THREE.WebGLRenderer({
       canvas,
       alpha: true,
@@ -15,7 +19,7 @@ export const threejsLessonUtils = {
     this.pixelRatio = Math.max(2, window.devicePixelRatio);
 
     this.renderer = renderer;
-    this.renderFuncs = [];
+    this.elemToRenderFuncMap = new Map();
 
     const resizeRendererToDisplaySize = (renderer) => {
       const canvas = renderer.domElement;
@@ -28,46 +32,91 @@ export const threejsLessonUtils = {
       return needResize;
     };
 
-    // Three r93 needs to render at least once for some reason.
-    const scene = new THREE.Scene();
-    const camera = new THREE.Camera();
+    const clearColor = new THREE.Color('#000');
+    let needsUpdate = true;
+    let rafRequestId;
+    let rafRunning;
 
     const render = (time) => {
+      rafRequestId = undefined;
       time *= 0.001;
 
-      resizeRendererToDisplaySize(renderer);
+      const resized = resizeRendererToDisplaySize(renderer);
 
-      renderer.setScissorTest(false);
+      // only update if we drew last time
+      // so the browser will not recomposite the page
+      // of nothing is being drawn.
+      if (needsUpdate) {
+        needsUpdate = false;
 
-      // Three r93 needs to render at least once for some reason.
-      renderer.render(scene, camera);
+        renderer.setScissorTest(false);
+        renderer.setClearColor(clearColor, 0);
+        renderer.clear(true, true);
+        renderer.setScissorTest(true);
+      }
 
-      renderer.setScissorTest(true);
-
-      // maybe there is another way. Originally I used `position: fixed`
-      // but the problem is if we can't render as fast as the browser
-      // scrolls then our shapes lag. 1 or 2 frames of lag isn't too
-      // horrible but iOS would often been 1/2 a second or worse.
-      // By doing it this way the canvas will scroll which means the
-      // worse that happens is part of the shapes scrolling on don't
-      // get drawn for a few frames but the shapes that are on the screen
-      // scroll perfectly.
-      //
-      // I'm using `transform` on the voodoo that it doesn't affect
-      // layout as much as `top` since AFAIK setting `top` is in
-      // the flow but `transform` is not though thinking about it
-      // the given we're `position: absolute` maybe there's no difference?
-      const transform = `translateY(${window.scrollY}px)`;
-      renderer.domElement.style.transform = transform;
-
-      this.renderFuncs.forEach((fn) => {
-        fn(renderer, time);
+      this.elementsOnScreen.forEach(elem => {
+        const fn = this.elemToRenderFuncMap.get(elem);
+        const wasRendered = fn(renderer, time, resized);
+        needsUpdate = needsUpdate || wasRendered;
       });
 
-      requestAnimationFrame(render);
+      if (needsUpdate) {
+        // maybe there is another way. Originally I used `position: fixed`
+        // but the problem is if we can't render as fast as the browser
+        // scrolls then our shapes lag. 1 or 2 frames of lag isn't too
+        // horrible but iOS would often been 1/2 a second or worse.
+        // By doing it this way the canvas will scroll which means the
+        // worse that happens is part of the shapes scrolling on don't
+        // get drawn for a few frames but the shapes that are on the screen
+        // scroll perfectly.
+        //
+        // I'm using `transform` on the voodoo that it doesn't affect
+        // layout as much as `top` since AFAIK setting `top` is in
+        // the flow but `transform` is not though thinking about it
+        // the given we're `position: absolute` maybe there's no difference?
+        const transform = `translateY(${window.scrollY}px)`;
+        renderer.domElement.style.transform = transform;
+      }
+
+      if (rafRunning) {
+        startRAFLoop();
+      }
     };
 
-    requestAnimationFrame(render);
+    function startRAFLoop() {
+      rafRunning = true;
+      if (!rafRequestId) {
+        rafRequestId = requestAnimationFrame(render);
+      }
+    }
+
+    this.elementsOnScreen = new Set();
+    this.intersectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.elementsOnScreen.add(entry.target);
+        } else {
+          this.elementsOnScreen.delete(entry.target);
+        }
+        // Each entry describes an intersection change for one observed
+        // target element:
+        //   entry.boundingClientRect
+        //   entry.intersectionRatio
+        //   entry.intersectionRect
+        //   entry.isIntersecting
+        //   entry.rootBounds
+        //   entry.target
+        //   entry.time
+      });
+      if (this.elementsOnScreen.size > 0) {
+        startRAFLoop();
+      } else {
+        rafRunning = false;
+      }
+    });
+
+
   },
   addDiagrams(diagrams) {
     [...document.querySelectorAll('[data-diagram]')].forEach((elem) => {
@@ -143,10 +192,13 @@ export const threejsLessonUtils = {
       targetFOVDeg = camera.fov;
 
       if (settings.trackball !== false) {
-        const controls = new TrackballControls(camera, elem);
-        controls.noZoom = true;
-        controls.noPan = true;
-        resizeFunctions.push(controls.handleResize.bind(controls));
+        const controls = new OrbitControls(camera, elem);
+        controls.rotateSpeed = 1 / 6;
+        controls.enableZoom = false;
+        controls.enablePan = false;
+        controls.enableKeys = false;
+        elem.removeAttribute('tabIndex');
+        //resizeFunctions.push(controls.handleResize.bind(controls));
         updateFunctions.push(controls.update.bind(controls));
       }
 
@@ -173,11 +225,11 @@ export const threejsLessonUtils = {
       const rect = elem.getBoundingClientRect();
       if (rect.bottom < 0 || rect.top  > renderer.domElement.clientHeight ||
           rect.right  < 0 || rect.left > renderer.domElement.clientWidth) {
-        return;
+        return false;
       }
 
-      renderInfo.width = (rect.right - rect.left) * this.pixelRatio;
-      renderInfo.height = (rect.bottom - rect.top) * this.pixelRatio;
+      renderInfo.width = rect.width * this.pixelRatio;
+      renderInfo.height = rect.height * this.pixelRatio;
       renderInfo.left = rect.left * this.pixelRatio;
       renderInfo.bottom = (renderer.domElement.clientHeight - rect.bottom) * this.pixelRatio;
 
@@ -192,7 +244,7 @@ export const threejsLessonUtils = {
       const aspect = renderInfo.width / renderInfo.height;
       const fovDeg = aspect >= 1
         ? targetFOVDeg
-        : THREE.Math.radToDeg(2 * Math.atan(Math.tan(THREE.Math.degToRad(targetFOVDeg) * .5) / aspect));
+        : THREE.MathUtils.radToDeg(2 * Math.atan(Math.tan(THREE.MathUtils.degToRad(targetFOVDeg) * .5) / aspect));
 
       camera.fov = fovDeg;
       camera.aspect = aspect;
@@ -202,10 +254,21 @@ export const threejsLessonUtils = {
       renderer.setScissor(renderInfo.left, renderInfo.bottom, renderInfo.width, renderInfo.height);
 
       settings.render(renderInfo);
+
+      return true;
     };
 
-    this.renderFuncs.push(render);
+    this.intersectionObserver.observe(elem);
+    this.elemToRenderFuncMap.set(elem, render);
+  },
+  onAfterPrettify(fn) {
+    this._afterPrettifyFuncs.push(fn);
+  },
+  afterPrettify() {
+    this._afterPrettifyFuncs.forEach((fn) => {
+      fn();
+    });
   },
 };
 
-
+window.threejsLessonUtils = threejsLessonUtils;
