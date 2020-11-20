@@ -2,6 +2,10 @@
 
 'use strict';
 
+process.on('unhandledRejection', up => {
+  throw up;
+});
+
 const fs = require('fs');
 const path = require('path');
 const semver = require('semver');
@@ -130,6 +134,8 @@ module.exports = function(grunt) {
     siteName: 'ThreeJSFundamentals',
     siteThumbnail: 'threejsfundamentals.jpg',  // in rootFolder/lessons/resources
     templatePath: 'build/templates',
+    owner: 'gfxfundamentals',
+    repo: 'threejsfundamentals',
     thumbnailOptions: {
       thumbnailBackground: 'threejsfundamentals-background.jpg',
       text: [
