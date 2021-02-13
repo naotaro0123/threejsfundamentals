@@ -232,7 +232,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   </div>
   <div class="lesson">
     <div class="lesson-main">
-      <p></p><div class="warning">The translation of this article is out of date.  <a href="https://github.com/gfxfundamentals/threejsfundamentals/blob/master/threejs/lessons/ru/threejs-fundamentals.md">Please consider helping to fix it</a>.</div><p></p>
+      <p></p><div class="warning">The translation of this article is out of date.  <a href="https://github.com/gfxfundamentals/threejsfundamentals}/blob/master/{$root.contentFileName}">Please consider helping to fix it</a>.</div><p></p>
 <p>Это первая статья в серии статей о three.js.
 <a href="http://threejs.org">Three.js</a> это 3D-библиотека, которая максимально 
 упрощает создание 3D-контента на веб-странице.</p>
@@ -263,7 +263,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 </pre><p>Three.js будет рисовать на этом холсте, так что нам нужно найти 
 его и передать three.js.</p>
 <pre class="prettyprint showlinemods notranslate notranslate" translate="no">&lt;script type="module"&gt;
-import * as THREE from './resources/threejs/r122/build/three.module.js';
+import * as THREE from './resources/threejs/r125/build/three.module.js';
 
 function main() {
   const canvas = document.querySelector('#c');
@@ -337,7 +337,7 @@ const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
 <pre class="prettyprint showlinemods notranslate notranslate" translate="no">const material = new THREE.MeshBasicMaterial({color: 0x44aa88});
 </pre><p>Затем мы создаем <a href="https://ru.wikipedia.org/wiki/Полигональная_сетка">полигональную сетку</a> 
 <a href="https://threejs.org/docs/#api/en/objects/Mesh"><code class="notranslate" translate="no">Mesh</code></a>. <a href="https://threejs.org/docs/#api/en/objects/Mesh"><code class="notranslate" translate="no">Mesh</code></a> в three.js представляет комбинацию 
-формы объекта <a href="https://threejs.org/docs/#api/en/core/Geometry"><code class="notranslate" translate="no">Geometry</code></a> и <a href="https://threejs.org/docs/#api/en/materials/Material"><code class="notranslate" translate="no">Material</code></a> (как нарисовать объект, 
+формы объекта <code class="notranslate" translate="no">Geometry</code> и <a href="https://threejs.org/docs/#api/en/materials/Material"><code class="notranslate" translate="no">Material</code></a> (как нарисовать объект, 
 блестящий или плоский, какой цвет, какую текстуру(ры) применить и т.д.)
 а также положение, ориентацию, и масштаб этого объекта в сцене.</p>
 <pre class="prettyprint showlinemods notranslate notranslate" translate="no">const cube = new THREE.Mesh(geometry, material);
@@ -500,7 +500,6 @@ requestAnimationFrame(render);
 <li><a href="/threejs/lessons/ru/threejs-shadows.html">Тени</a></li>
 <li><a href="/threejs/lessons/ru/threejs-fog.html">Туман</a></li>
 <li><a href="/threejs/lessons/ru/threejs-rendertargets.html">Цели рендеринга</a></li>
-<li><a href="/threejs/lessons/ru/threejs-custom-geometry.html">Пользовательская Geometry</a></li>
 <li><a href="/threejs/lessons/ru/threejs-custom-buffergeometry.html">Пользовательская BufferGeometry</a></li>
         </ul>
   <li>Советы</li>

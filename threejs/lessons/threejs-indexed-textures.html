@@ -287,7 +287,7 @@ pickingScene.background = new THREE.Color(0);
 picking scene.</p>
 <pre class="prettyprint showlinemods notranslate lang-js" translate="no">{
   const loader = new THREE.TextureLoader();
-  const geometry = new THREE.SphereBufferGeometry(1, 64, 32);
+  const geometry = new THREE.SphereGeometry(1, 64, 32);
 
 +  const indexTexture = loader.load('resources/data/world/country-index-texture.png', render);
 +  indexTexture.minFilter = THREE.NearestFilter;
@@ -405,20 +405,7 @@ function unselectAllCountries() {
   });
 }
 
-canvas.addEventListener('mouseup', pickCountry);
-
-let lastTouch;
-canvas.addEventListener('touchstart', (event) =&gt; {
-  // prevent the window from scrolling
-  event.preventDefault();
-  lastTouch = event.touches[0];
-}, {passive: false});
-canvas.addEventListener('touchmove', (event) =&gt; {
-  lastTouch = event.touches[0];
-});
-canvas.addEventListener('touchend', () =&gt; {
-  pickCountry(lastTouch);
-});
+canvas.addEventListener('pointerup', pickCountry);
 </pre>
 <p>The code above sets/unsets the <code class="notranslate" translate="no">selected</code> property on
 the array of countries. If <code class="notranslate" translate="no">shift</code> or <code class="notranslate" translate="no">ctrl</code> or <code class="notranslate" translate="no">cmd</code>
@@ -557,7 +544,7 @@ of search and replacement strings and apply them to the shader in
 <a href="https://threejs.org/docs/#api/en/materials/Material.onBeforeCompile"><code class="notranslate" translate="no">Material.onBeforeCompile</code></a>.</p>
 <pre class="prettyprint showlinemods notranslate lang-js" translate="no">{
   const loader = new THREE.TextureLoader();
-  const geometry = new THREE.SphereBufferGeometry(1, 64, 32);
+  const geometry = new THREE.SphereGeometry(1, 64, 32);
 
   const indexTexture = loader.load('resources/data/world/country-index-texture.png', render);
   indexTexture.minFilter = THREE.NearestFilter;
@@ -643,7 +630,7 @@ paletteTexture.needsUpdate = true;
 the contents of the <code class="notranslate" translate="no">palette</code> array we need to set <code class="notranslate" translate="no">paletteTexture.needsUpdate</code>
 to <code class="notranslate" translate="no">true</code>.</p>
 <p>And then we still need to set the uniforms on the material.</p>
-<pre class="prettyprint showlinemods notranslate lang-js" translate="no">const geometry = new THREE.SphereBufferGeometry(1, 64, 32);
+<pre class="prettyprint showlinemods notranslate lang-js" translate="no">const geometry = new THREE.SphereGeometry(1, 64, 32);
 const material = new THREE.MeshBasicMaterial({map: texture});
 material.onBeforeCompile = function(shader) {
   fragmentShaderReplacements.forEach((rep) =&gt; {
@@ -822,19 +809,8 @@ function unselectAllCountries() {
   resetPalette();
 }
 
-+canvas.addEventListener('mousedown', recordStartTimeAndPosition);
-canvas.addEventListener('mouseup', pickCountry);
-
-let lastTouch;
-canvas.addEventListener('touchstart', (event) =&gt; {
-  // prevent the window from scrolling
-  event.preventDefault();
-  lastTouch = event.touches[0];
-+  recordStartTimeAndPosition(event.touches[0]);
-}, {passive: false});
-canvas.addEventListener('touchmove', (event) =&gt; {
-  lastTouch = event.touches[0];
-});
++canvas.addEventListener('pointerdown', recordStartTimeAndPosition);
+canvas.addEventListener('pointerup', pickCountry);
 </pre>
 <p>and with those changes it <em>seems</em> like it works to me.</p>
 <p></p><div translate="no" class="threejs_example_container notranslate">
@@ -882,7 +858,6 @@ this article. There are a few links to some info in
 <li><a href="/threejs/lessons/threejs-shadows.html">Shadows</a></li>
 <li><a href="/threejs/lessons/threejs-fog.html">Fog</a></li>
 <li><a href="/threejs/lessons/threejs-rendertargets.html">Render Targets</a></li>
-<li><a href="/threejs/lessons/threejs-custom-geometry.html">Custom Geometry</a></li>
 <li><a href="/threejs/lessons/threejs-custom-buffergeometry.html">Custom BufferGeometry</a></li>
         </ul>
   <li>Tips</li>

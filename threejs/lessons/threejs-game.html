@@ -436,10 +436,10 @@ we instead want to clone the scene and in particular we want to clone
 it for skinned animated characters. Fortunately there's a utility function,
 <code class="notranslate" translate="no">SkeletonUtils.clone</code> we can use to do this. So, first we need to include
 the utils.</p>
-<pre class="prettyprint showlinemods notranslate lang-js" translate="no">import * as THREE from './resources/three/r122/build/three.module.js';
-import {OrbitControls} from './resources/threejs/r122/examples/jsm/controls/OrbitControls.js';
-import {GLTFLoader} from './resources/threejs/r122/examples/jsm/loaders/GLTFLoader.js';
-+import {SkeletonUtils} from './resources/threejs/r122/examples/jsm/utils/SkeletonUtils.js';
+<pre class="prettyprint showlinemods notranslate lang-js" translate="no">import * as THREE from './resources/three/r125/build/three.module.js';
+import {OrbitControls} from './resources/threejs/r125/examples/jsm/controls/OrbitControls.js';
+import {GLTFLoader} from './resources/threejs/r125/examples/jsm/loaders/GLTFLoader.js';
++import {SkeletonUtils} from './resources/threejs/r125/examples/jsm/utils/SkeletonUtils.js';
 </pre>
 <p>Then we can clone the models we just loaded</p>
 <pre class="prettyprint showlinemods notranslate lang-js" translate="no">function init() {
@@ -1272,53 +1272,41 @@ which seemed better than just small arrows.</p>
 +      }
 +    };
 +
-+    const checkSides = (e) =&gt; {
++    const handleMouseMove = (e) =&gt; {
++      e.preventDefault();
++      // this is needed because we call preventDefault();
++      // we also gave the canvas a tabindex so it can
++      // become the focus
++      canvas.focus();
++      window.addEventListener('pointermove', handleMouseMove);
++      window.addEventListener('pointerup', handleMouseUp);
++
 +      for (const {elem, key} of sides) {
 +        let pressed = false;
 +        const rect = elem.getBoundingClientRect();
-+        for (const touch of e.touches) {
-+          const x = touch.clientX;
-+          const y = touch.clientY;
-+          const inRect = x &gt;= rect.left &amp;&amp; x &lt; rect.right &amp;&amp;
-+                         y &gt;= rect.top &amp;&amp; y &lt; rect.bottom;
-+          if (inRect) {
-+            pressed = true;
-+          }
++        const x = e.clientX;
++        const y = e.clientY;
++        const inRect = x &gt;= rect.left &amp;&amp; x &lt; rect.right &amp;&amp;
++                       y &gt;= rect.top &amp;&amp; y &lt; rect.bottom;
++        if (inRect) {
++          pressed = true;
 +        }
 +        setKey(key, pressed);
 +      }
 +    };
 +
-+    const uiElem = document.querySelector('#ui');
-+    uiElem.addEventListener('touchstart', (e) =&gt; {
-+      e.preventDefault();
-+      checkSides(e);
-+    }, {passive: false});
-+    uiElem.addEventListener('touchmove', (e) =&gt; {
-+      e.preventDefault();  // prevent scroll
-+      checkSides(e);
-+    }, {passive: false});
-+    uiElem.addEventListener('touchend', () =&gt; {
-+      clearKeys();
-+    });
-+
-+    function handleMouseMove(e) {
-+      e.preventDefault();
-+      checkSides({
-+        touches: [e],
-+      });
-+    }
-+
 +    function handleMouseUp() {
 +      clearKeys();
-+      window.removeEventListener('mousemove', handleMouseMove, {passive: false});
-+      window.removeEventListener('mouseup', handleMouseUp);
++      window.removeEventListener('pointermove', handleMouseMove, {passive: false});
++      window.removeEventListener('pointerup', handleMouseUp);
 +    }
 +
-+    uiElem.addEventListener('mousedown', (e) =&gt; {
-+      handleMouseMove(e);
-+      window.addEventListener('mousemove', handleMouseMove);
-+      window.addEventListener('mouseup', handleMouseUp);
++    const uiElem = document.querySelector('#ui');
++    uiElem.addEventListener('pointerdown', handleMouseMove, {passive: false});
++
++    uiElem.addEventListener('touchstart', (e) =&gt; {
++      // prevent scrolling
++      e.preventDefault();
 +    }, {passive: false});
   }
   update() {
@@ -1727,10 +1715,10 @@ class StateDisplayHelper extends Component {
 </pre>
 <p>While we're at it lets make it so we can turn them on/off using dat.GUI like
 we've used else where</p>
-<pre class="prettyprint showlinemods notranslate lang-js" translate="no">import * as THREE from './resources/three/r122/build/three.module.js';
-import {OrbitControls} from './resources/threejs/r122/examples/jsm/controls/OrbitControls.js';
-import {GLTFLoader} from './resources/threejs/r122/examples/jsm/loaders/GLTFLoader.js';
-import {SkeletonUtils} from './resources/threejs/r122/examples/jsm/utils/SkeletonUtils.js';
+<pre class="prettyprint showlinemods notranslate lang-js" translate="no">import * as THREE from './resources/three/r125/build/three.module.js';
+import {OrbitControls} from './resources/threejs/r125/examples/jsm/controls/OrbitControls.js';
+import {GLTFLoader} from './resources/threejs/r125/examples/jsm/loaders/GLTFLoader.js';
+import {SkeletonUtils} from './resources/threejs/r125/examples/jsm/utils/SkeletonUtils.js';
 +import {GUI} from '../3rdparty/dat.gui.module.js';
 </pre>
 <pre class="prettyprint showlinemods notranslate lang-js" translate="no">+const gui = new GUI();
@@ -2168,7 +2156,6 @@ If you make a cool game post a link in the comments below.</p>
 <li><a href="/threejs/lessons/threejs-shadows.html">Shadows</a></li>
 <li><a href="/threejs/lessons/threejs-fog.html">Fog</a></li>
 <li><a href="/threejs/lessons/threejs-rendertargets.html">Render Targets</a></li>
-<li><a href="/threejs/lessons/threejs-custom-geometry.html">Custom Geometry</a></li>
 <li><a href="/threejs/lessons/threejs-custom-buffergeometry.html">Custom BufferGeometry</a></li>
         </ul>
   <li>Tips</li>

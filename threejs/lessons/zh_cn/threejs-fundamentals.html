@@ -37,7 +37,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <meta name="keywords" content="webgl graphics three.js">
 <meta name="thumbnail" content="https://threejsfundamentals.org/threejs/lessons/screenshots/threejs-fundamentals_zh_cn.jpg">
 
-<meta property="og:title" content="Three.js基础">
+<meta property="og:title" content="Three.js 基础">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://threejsfundamentals.org/threejs/lessons/screenshots/threejs-fundamentals_zh_cn.jpg">
 <meta property="og:description" content="学习Three.js的第一篇文章">
@@ -47,7 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <meta name="twitter:site" content="@greggman">
 <meta name="twitter:creator" content="@greggman">
 <meta name="twitter:domain" content="threejsfundamentals.org">
-<meta name="twitter:title" content="Three.js基础">
+<meta name="twitter:title" content="Three.js 基础">
 <meta name="twitter:url" content="https://threejsfundamentals.org/threejs/lessons/zh_cn/threejs-fundamentals.html">
 <meta name="twitter:description" content="学习Three.js的第一篇文章">
 <meta name="twitter:image:src" content="https://threejsfundamentals.org/threejs/lessons/screenshots/threejs-fundamentals_zh_cn.jpg">
@@ -84,7 +84,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       "@id":"https://threejsfundamentals.org/threejs/lessons/zh_cn/threejs-fundamentals.html#webpage",
       "url":"https://threejsfundamentals.org/threejs/lessons/zh_cn/threejs-fundamentals.html",
       "inLanguage":"zh_cn",
-      "name":"Three.js基础",
+      "name":"Three.js 基础",
       "keywords":"webgl graphics three.js programming",
       "isPartOf":{
         "@id":"https://threejsfundamentals.org/#website"
@@ -97,7 +97,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 }
 </script>
 
-<title>Three.js基础</title>
+<title>Three.js 基础</title>
 <link href="/threejs/lessons/resources/threejsfundamentals-icon.png" rel="shortcut icon" type="image/png">
 <link rel="apple-touch-icon" href="/threejs/lessons/resources/threejsfundamentals-icon.png">
 <link rel="icon" href="/threejs/lessons/resources/threejsfundamentals-icon.png">
@@ -229,7 +229,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 <div class="container">
   <div class="lesson-title">
-    <h1>Three.js基础</h1>
+    <h1>Three.js 基础</h1>
   </div>
   <div class="lesson">
     <div class="lesson-main">
@@ -260,9 +260,9 @@ ES6的语法。<a href="threejs-prerequisites.html">点击这里查看你需要�
 <li><p>其次有一个<a href="threejs-scenegraph.html">场景图</a> 它是一个树状结构，由很多对象组成，比如图中包含了一个<a href="https://threejs.org/docs/#api/zh/scenes/Scene">场景(<code class="notranslate" translate="no">Scene</code>)</a>对象 ，多个<a href="https://threejs.org/docs/#api/zh/objects/Mesh">网格(<code class="notranslate" translate="no">Mesh</code>)</a>对象，<a href="https://threejs.org/docs/#api/zh/lights/Light">光源(<code class="notranslate" translate="no">Light</code>)</a>对象，<a href="https://threejs.org/docs/#api/zh/objects/Group">群组(<code class="notranslate" translate="no">Group</code>)</a>，<a href="https://threejs.org/docs/#api/zh/core/Object3D">三维物体(<code class="notranslate" translate="no">Object3D</code>)</a>，和<a href="https://threejs.org/docs/#api/zh/cameras/Camera">摄像机(<code class="notranslate" translate="no">Camera</code>)</a>对象。一个<a href="https://threejs.org/docs/#api/zh/scenes/Scene">场景(<code class="notranslate" translate="no">Scene</code>)</a>对象定义了场景图最基本的要素，并包了含背景色和雾等属性。这些对象通过一个层级关系明确的树状结构来展示出各自的位置和方向。子对象的位置和方向总是相对于父对象而言的。比如说汽车的轮子是汽车的子对象，这样移动和定位汽车时就会自动移动轮子。你可以在<a href="threejs-scenegraph.html">场景图</a>的这篇文章中了解更多内容。</p>
 <p>注意图中<a href="https://threejs.org/docs/#api/zh/cameras/Camera">摄像机(<code class="notranslate" translate="no">Camera</code>)</a>是一半在场景图中，一半在场景图外的。这表示在three.js中，<a href="https://threejs.org/docs/#api/zh/cameras/Camera">摄像机(<code class="notranslate" translate="no">Camera</code>)</a>和其他对象不同的是，它不一定要在场景图中才能起作用。相同的是，<a href="https://threejs.org/docs/#api/zh/cameras/Camera">摄像机(<code class="notranslate" translate="no">Camera</code>)</a>作为其他对象的子对象，同样会继承它父对象的位置和朝向。在<a href="threejs-scenegraph.html">场景图</a>这篇文章的结尾部分有放置多个<a href="https://threejs.org/docs/#api/zh/cameras/Camera">摄像机(<code class="notranslate" translate="no">Camera</code>)</a>在一个场景中的例子。</p>
 </li>
-<li><p><a href="https://threejs.org/docs/#api/zh/objects/Mesh">网格(<code class="notranslate" translate="no">Mesh</code>)</a>对象可以理解为用一种特定的<a href="https://threejs.org/docs/#api/zh/materials/Material">材质(<code class="notranslate" translate="no">Material</code>)</a>来绘制的一个特定的<a href="https://threejs.org/docs/#api/zh/core/Geometry">几何体(<code class="notranslate" translate="no">Geometry</code>)</a>。<a href="https://threejs.org/docs/#api/zh/materials/Material">材质(<code class="notranslate" translate="no">Material</code>)</a>和<a href="https://threejs.org/docs/#api/zh/core/Geometry">几何体(<code class="notranslate" translate="no">Geometry</code>)</a>可以被多个<a href="https://threejs.org/docs/#api/zh/objects/Mesh">网格(<code class="notranslate" translate="no">Mesh</code>)</a>对象使用。比如在不同的位置画两个蓝色立方体，我们会需要两个<a href="https://threejs.org/docs/#api/zh/objects/Mesh">网格(<code class="notranslate" translate="no">Mesh</code>)</a>对象来代表每一个立方体的位置和方向。但只需一个<a href="https://threejs.org/docs/#api/zh/core/Geometry">几何体(<code class="notranslate" translate="no">Geometry</code>)</a>来存放立方体的顶点数据，和一种<a href="https://threejs.org/docs/#api/zh/materials/Material">材质(<code class="notranslate" translate="no">Material</code>)</a>来定义立方体的颜色为蓝色就可以了。两个<a href="https://threejs.org/docs/#api/zh/objects/Mesh">网格(<code class="notranslate" translate="no">Mesh</code>)</a>对象都引用了相同的<a href="https://threejs.org/docs/#api/zh/core/Geometry">几何体(<code class="notranslate" translate="no">Geometry</code>)</a>和<a href="https://threejs.org/docs/#api/zh/materials/Material">材质(<code class="notranslate" translate="no">Material</code>)</a>。</p>
+<li><p><a href="https://threejs.org/docs/#api/zh/objects/Mesh">网格(<code class="notranslate" translate="no">Mesh</code>)</a>对象可以理解为用一种特定的<a href="https://threejs.org/docs/#api/zh/materials/Material">材质(<code class="notranslate" translate="no">Material</code>)</a>来绘制的一个特定的<a href="Geometry">几何体(<code class="notranslate" translate="no">Geometry</code>)</a>。<a href="https://threejs.org/docs/#api/zh/materials/Material">材质(<code class="notranslate" translate="no">Material</code>)</a>和<a href="Geometry">几何体(<code class="notranslate" translate="no">Geometry</code>)</a>可以被多个<a href="https://threejs.org/docs/#api/zh/objects/Mesh">网格(<code class="notranslate" translate="no">Mesh</code>)</a>对象使用。比如在不同的位置画两个蓝色立方体，我们会需要两个<a href="https://threejs.org/docs/#api/zh/objects/Mesh">网格(<code class="notranslate" translate="no">Mesh</code>)</a>对象来代表每一个立方体的位置和方向。但只需一个<a href="Geometry">几何体(<code class="notranslate" translate="no">Geometry</code>)</a>来存放立方体的顶点数据，和一种<a href="https://threejs.org/docs/#api/zh/materials/Material">材质(<code class="notranslate" translate="no">Material</code>)</a>来定义立方体的颜色为蓝色就可以了。两个<a href="https://threejs.org/docs/#api/zh/objects/Mesh">网格(<code class="notranslate" translate="no">Mesh</code>)</a>对象都引用了相同的<a href="Geometry">几何体(<code class="notranslate" translate="no">Geometry</code>)</a>和<a href="https://threejs.org/docs/#api/zh/materials/Material">材质(<code class="notranslate" translate="no">Material</code>)</a>。</p>
 </li>
-<li><p><a href="https://threejs.org/docs/#api/zh/core/Geometry">几何体(<code class="notranslate" translate="no">Geometry</code>)</a>对象顾名思义代表一些几何体，如球体、立方体、平面、狗、猫、人、树、建筑等物体的顶点信息。Three.js内置了许多<a href="threejs-primitives.html">基本几何体</a> 。你也可以<a href="threejs-custom-geometry.html">创建自定义几何体</a>或<a href="threejs-load-obj.html">从文件中加载几何体</a>。</p>
+<li><p><a href="Geometry">几何体(<code class="notranslate" translate="no">Geometry</code>)</a>对象顾名思义代表一些几何体，如球体、立方体、平面、狗、猫、人、树、建筑等物体的顶点信息。Three.js内置了许多<a href="threejs-primitives.html">基本几何体</a> 。你也可以<a href="threejs-custom-buffergeometry.html">创建自定义几何体</a>或<a href="threejs-load-obj.html">从文件中加载几何体</a>。</p>
 </li>
 <li><p><a href="https://threejs.org/docs/#api/zh/materials/Material">材质(<code class="notranslate" translate="no">Material</code>)</a>对象代表<a href="threejs-materials.html">绘制几何体的表面属性</a>，包括使用的颜色，和光亮程度。一个<a href="https://threejs.org/docs/#api/zh/materials/Material">材质(<code class="notranslate" translate="no">Material</code>)</a>可以引用一个或多个<a href="https://threejs.org/docs/#api/zh/textures/Texture">纹理(<code class="notranslate" translate="no">Texture</code>)</a>，这些纹理可以用来，打个比方，将图像包裹到几何体的表面。</p>
 </li>
@@ -276,7 +276,7 @@ ES6的语法。<a href="threejs-prerequisites.html">点击这里查看你需要�
 
 <p>首先是加载three.js</p>
 <pre class="prettyprint showlinemods notranslate lang-html" translate="no">&lt;script type="module"&gt;
-import * as THREE from './resources/threejs/r122/build/three.module.js';
+import * as THREE from './resources/threejs/r125/build/three.module.js';
 &lt;/script&gt;
 </pre>
 <p>把<code class="notranslate" translate="no">type="module"</code>放到script标签中很重要。这可以让我们使用<code class="notranslate" translate="no">import</code>关键字加载three.js。还有其他的方法可以加载three.js，但是自r106开始，使用模块是最推荐的方式。模块的优点是可以很方便地导入需要的其他模块。这样我们就不用再手动引入它们所依赖的其他文件了。</p>
@@ -287,7 +287,7 @@ import * as THREE from './resources/threejs/r122/build/three.module.js';
 </pre>
 <p>Three.js需要使用这个canvas标签来绘制，所以我们要先获取它然后传给three.js。</p>
 <pre class="prettyprint showlinemods notranslate lang-html" translate="no">&lt;script type="module"&gt;
-import * as THREE from './resources/threejs/r122/build/three.module.js';
+import * as THREE from './resources/threejs/r125/build/three.module.js';
 
 +function main() {
 +  const canvas = document.querySelector('#c');
@@ -334,7 +334,7 @@ const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
 </pre>
 <p>再创建一个<a href="https://threejs.org/docs/#api/zh/objects/Mesh">网格(<code class="notranslate" translate="no">Mesh</code>)</a>对象，它包含了：</p>
 <ol>
-<li><a href="https://threejs.org/docs/#api/zh/core/Geometry">几何体(<code class="notranslate" translate="no">Geometry</code>)</a>(物体的形状)</li>
+<li><a href="Geometry">几何体(<code class="notranslate" translate="no">Geometry</code>)</a>(物体的形状)</li>
 <li><a href="https://threejs.org/docs/#api/zh/materials/Material">材质(<code class="notranslate" translate="no">Material</code>)</a>(如何绘制物体，光滑还是平整，什么颜色，什么贴图等等)</li>
 <li>对象在场景中相对于他父对象的位置、朝向、和缩放。下面的代码中父对象即为场景对象。</li>
 </ol>
@@ -460,7 +460,7 @@ requestAnimationFrame(render);
 在一个脚本中，es6模块可以通过<code class="notranslate" translate="no">import</code>关键字加载或者通过<code class="notranslate" translate="no">&lt;script type="module"&gt;</code>行内标签。这有一个两种方法都用的例子。
 </p>
 <pre class="prettyprint">&lt;script type="module"&gt;
-import * as THREE from './resources/threejs/r122/build/three.module.js';
+import * as THREE from './resources/threejs/r125/build/three.module.js';
 
 ...
 
@@ -540,17 +540,16 @@ Three.js的政策是不担心向后的兼容性。他们希望你使用特定的
 <li><a href="/threejs/lessons/zh_cn/threejs-scenegraph.html">场景图</a></li>
 <li><a href="/threejs/lessons/zh_cn/threejs-materials.html">材质</a></li>
 <li><a href="/threejs/lessons/zh_cn/threejs-textures.html">纹理</a></li>
-<li><a href="/threejs/lessons/zh_cn/threejs-lights.html">Lights</a></li>
-<li><a href="/threejs/lessons/zh_cn/threejs-cameras.html">Cameras</a></li>
+<li><a href="/threejs/lessons/zh_cn/threejs-lights.html">光照</a></li>
+<li><a href="/threejs/lessons/zh_cn/threejs-cameras.html">摄像机</a></li>
 <li><a href="/threejs/lessons/zh_cn/threejs-shadows.html">Shadows</a></li>
 <li><a href="/threejs/lessons/zh_cn/threejs-fog.html">Fog</a></li>
 <li><a href="/threejs/lessons/zh_cn/threejs-rendertargets.html">Render Targets</a></li>
-<li><a href="/threejs/lessons/zh_cn/threejs-custom-geometry.html">Custom Geometry</a></li>
 <li><a href="/threejs/lessons/zh_cn/threejs-custom-buffergeometry.html">Custom BufferGeometry</a></li>
         </ul>
   <li>技巧</li>
         <ul>
-          <li><a href="/threejs/lessons/zh_cn/threejs-rendering-on-demand.html">Rendering On Demand</a></li>
+          <li><a href="/threejs/lessons/zh_cn/threejs-rendering-on-demand.html">按需渲染</a></li>
 <li><a href="/threejs/lessons/zh_cn/threejs-debugging-javascript.html">Debugging JavaScript</a></li>
 <li><a href="/threejs/lessons/zh_cn/threejs-debugging-glsl.html">Debugging GLSL</a></li>
 <li><a href="/threejs/lessons/zh_cn/threejs-tips.html#screenshot">Taking a screenshot</a></li>
@@ -561,8 +560,8 @@ Three.js的政策是不担心向后的兼容性。他们希望你使用特定的
         </ul>
   <li>优化</li>
         <ul>
-          <li><a href="/threejs/lessons/zh_cn/threejs-optimize-lots-of-objects.html">Optimizing Lots of Objects</a></li>
-<li><a href="/threejs/lessons/zh_cn/threejs-optimize-lots-of-objects-animated.html">Optimizing Lots of Objects Animated</a></li>
+          <li><a href="/threejs/lessons/zh_cn/threejs-optimize-lots-of-objects.html">大量对象的优化</a></li>
+<li><a href="/threejs/lessons/zh_cn/threejs-optimize-lots-of-objects-animated.html">优化对象的同时保持动画效果</a></li>
 <li><a href="/threejs/lessons/zh_cn/threejs-offscreencanvas.html">Using OffscreenCanvas in a Web Worker</a></li>
         </ul>
   <li>解决方案</li>
@@ -610,8 +609,8 @@ Three.js的政策是不担心向后的兼容性。他们希望你使用特定的
         <script type="text/javascript">
             /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
             var disqus_shortname = 'threejsfundamentals'; // required: replace example with your forum shortname
-            var disqus_identifier = 'Three.js基础';
-            var disqus_title = 'Three.js基础';
+            var disqus_identifier = 'Three.js 基础';
+            var disqus_title = 'Three.js 基础';
 
             /* * * DON'T EDIT BELOW THIS LINE * * */
             (function() {

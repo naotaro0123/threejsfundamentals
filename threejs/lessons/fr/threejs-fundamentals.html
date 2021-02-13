@@ -285,18 +285,18 @@ façon que les autres objets, enfant d'un autre objet, se déplace et s'oriente 
 objet parent. A la fin de <a href="threejs-scenegraph.html">l'article sur les graphes de scène</a>, l'inclusion
 de multiples objets <a href="https://threejs.org/docs/#api/en/cameras/Camera"><code class="notranslate" translate="no">Camera</code></a> dans un unique graphe de scène est donné en exemple.</p>
 </li>
-<li><p>Les objets de type <a href="https://threejs.org/docs/#api/en/objects/Mesh"><code class="notranslate" translate="no">Mesh</code></a> représentent une géométrie (<a href="https://threejs.org/docs/#api/en/core/Geometry"><code class="notranslate" translate="no">Geometry</code></a>) liée à un matériau (<a href="https://threejs.org/docs/#api/en/materials/Material"><code class="notranslate" translate="no">Material</code></a>)
-spécifique. Les objets <a href="https://threejs.org/docs/#api/en/materials/Material"><code class="notranslate" translate="no">Material</code></a> et <a href="https://threejs.org/docs/#api/en/core/Geometry"><code class="notranslate" translate="no">Geometry</code></a> peuvent être liés à plusieurs objets <a href="https://threejs.org/docs/#api/en/objects/Mesh"><code class="notranslate" translate="no">Mesh</code></a>
+<li><p>Les objets de type <a href="https://threejs.org/docs/#api/en/objects/Mesh"><code class="notranslate" translate="no">Mesh</code></a> représentent une géométrie (<code class="notranslate" translate="no">Geometry</code>) liée à un matériau (<a href="https://threejs.org/docs/#api/en/materials/Material"><code class="notranslate" translate="no">Material</code></a>)
+spécifique. Les objets <a href="https://threejs.org/docs/#api/en/materials/Material"><code class="notranslate" translate="no">Material</code></a> et <code class="notranslate" translate="no">Geometry</code> peuvent être liés à plusieurs objets <a href="https://threejs.org/docs/#api/en/objects/Mesh"><code class="notranslate" translate="no">Mesh</code></a>
 simultanément. Par exemple, pour dessiner deux cubes bleus à des positions différentes, nous
 pouvons soit utiliser deux objets <a href="https://threejs.org/docs/#api/en/objects/Mesh"><code class="notranslate" translate="no">Mesh</code></a> pour spécifier les positions et orientations de
-chaque cube; soit nous pouvons utiliser seulement une géométrie unique (<a href="https://threejs.org/docs/#api/en/core/Geometry"><code class="notranslate" translate="no">Geometry</code></a>) pour décrire les
+chaque cube; soit nous pouvons utiliser seulement une géométrie unique (<code class="notranslate" translate="no">Geometry</code>) pour décrire les
 données spatiales du cube et un matériau unique (<a href="https://threejs.org/docs/#api/en/materials/Material"><code class="notranslate" translate="no">Material</code></a>) pour spécifier la couleur bleue.
-Les deux objets <a href="https://threejs.org/docs/#api/en/objects/Mesh"><code class="notranslate" translate="no">Mesh</code></a> peuvent ainsi référencer les mêmes objets <a href="https://threejs.org/docs/#api/en/core/Geometry"><code class="notranslate" translate="no">Geometry</code></a> et <a href="https://threejs.org/docs/#api/en/materials/Material"><code class="notranslate" translate="no">Material</code></a>.</p>
+Les deux objets <a href="https://threejs.org/docs/#api/en/objects/Mesh"><code class="notranslate" translate="no">Mesh</code></a> peuvent ainsi référencer les mêmes objets <code class="notranslate" translate="no">Geometry</code> et <a href="https://threejs.org/docs/#api/en/materials/Material"><code class="notranslate" translate="no">Material</code></a>.</p>
 </li>
-<li><p>Les objets <a href="https://threejs.org/docs/#api/en/core/Geometry"><code class="notranslate" translate="no">Geometry</code></a> représentent les données associées aux sommets d'une géométrie telle qu'une
+<li><p>Les objets <code class="notranslate" translate="no">Geometry</code> représentent les données associées aux sommets d'une géométrie telle qu'une
 sphère, un cube, un avion, un chien, un chat, un humain, un arbre, un bâtiment, etc...
 Three.js fournit plusieurs types intégrés de <a href="threejs-primitives.html">primitives géométriques</a>.
-Vous pouvez aussi <a href="threejs-custom-geometry.html">créer vos propres géométries</a> ou
+Vous pouvez aussi <a href="threejs-custom-buffergeometry.html">créer vos propres géométries</a> ou
 <a href="threejs-load-obj.html">charger des géométries à partir d'un fichier</a>.</p>
 </li>
 <li><p>Les objets <a href="https://threejs.org/docs/#api/en/materials/Material"><code class="notranslate" translate="no">Material</code></a> représentent les
@@ -318,7 +318,7 @@ nombre minimum d'élements three.js :</p>
 
 <p>Tout d'abord, chargeons three.js :</p>
 <pre class="prettyprint showlinemods notranslate lang-html" translate="no">&lt;script type="module"&gt;
-import * as THREE from './resources/threejs/r122/build/three.module.js';
+import * as THREE from './resources/threejs/r125/build/three.module.js';
 &lt;/script&gt;
 </pre>
 <p>Il est important d'écrire <code class="notranslate" translate="no">type="module"</code> dans la balise script.
@@ -335,7 +335,7 @@ facilement importer les autres modules dont ils ont besoin. Cela nous
 <p>Nous allons demander à three.js de dessiner dans ce canevas donc nous devons le rechercher
 dans le document html :</p>
 <pre class="prettyprint showlinemods notranslate lang-html" translate="no">&lt;script type="module"&gt;
-import * as THREE from './resources/threejs/r122/build/three.module.js';
+import * as THREE from './resources/threejs/r125/build/three.module.js';
 
 +function main() {
 +  const canvas = document.querySelector('#c');
@@ -411,7 +411,7 @@ Elle peut être spécifiée au format hexadécimal (6 chiffres) du standard CSS.
 <pre class="prettyprint showlinemods notranslate lang-js" translate="no">const material = new THREE.MeshBasicMaterial({color: 0x44aa88});
 </pre>
 <p>Nous créons ensuite un maillage (<a href="https://threejs.org/docs/#api/en/objects/Mesh"><code class="notranslate" translate="no">Mesh</code></a>). Dans three.js, il représente la combinaison
-d'une <a href="https://threejs.org/docs/#api/en/core/Geometry"><code class="notranslate" translate="no">Geometry</code></a> (forme de l'objet) et d'un matériau (<a href="https://threejs.org/docs/#api/en/materials/Material"><code class="notranslate" translate="no">Material</code></a> - aspect
+d'une <code class="notranslate" translate="no">Geometry</code> (forme de l'objet) et d'un matériau (<a href="https://threejs.org/docs/#api/en/materials/Material"><code class="notranslate" translate="no">Material</code></a> - aspect
 d'un objet, brillant ou plat, quelle couleur, quelle texture appliquer, etc.)
 ainsi que la position, l'orientation et l'échelle de l'objet dans la scène.</p>
 <pre class="prettyprint showlinemods notranslate lang-js" translate="no">const cube = new THREE.Mesh(geometry, material);
@@ -571,7 +571,7 @@ Ils sont chargés via le mot-clé <code class="notranslate" translate="no">impor
 par le biais d'une balise <code class="notranslate" translate="no">&lt;script type="module"&gt;</code>. Voici un exemple d'utilisation avec les deux :
 </p>
 <pre class="prettyprint">&lt;script type="module"&gt;
-import * as THREE from './resources/threejs/r122/build/three.module.js';
+import * as THREE from './resources/threejs/r125/build/three.module.js';
 
 ...
 
@@ -675,7 +675,6 @@ pour le support des anciens navigateurs, vous pouvez utiliser un
 <li><a href="/threejs/lessons/fr/threejs-shadows.html">Shadows</a></li>
 <li><a href="/threejs/lessons/fr/threejs-fog.html">Fog</a></li>
 <li><a href="/threejs/lessons/fr/threejs-rendertargets.html">Render Targets</a></li>
-<li><a href="/threejs/lessons/fr/threejs-custom-geometry.html">Custom Geometry</a></li>
 <li><a href="/threejs/lessons/fr/threejs-custom-buffergeometry.html">Custom BufferGeometry</a></li>
         </ul>
   <li>Сonseils</li>
