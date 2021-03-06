@@ -931,27 +931,21 @@ class Player extends Component {
 }
 ```
 
-The code above uses `Object3D.transformOnAxis` to move the player
-forward. `Object3D.transformOnAxis` works in local space so it only
-works if the object in question is at the root of the scene, not if it's
-parented to something else <a class="footnote" href="#parented" id="parented-backref">1</a>
+上記のコードは `Object3D.transformOnAxis` でプレイヤーを前進させてます。
+`Object3D.transformOnAxis` はローカル空間で動作するので、
+問題のオブジェクトがシーンのルートにある場合にのみ動作し、
+他の<a class="footnote" href="#parented" id="parented-backref">何か</a>の親になっている場合には動作しません。
+また、グローバルな `moveSpeed` を追加し、移動速度に基づいて `turnSpeed` を設定しました。
+ターン速度は、キャラクターが目標に見合って鋭くターンできる移動速度に基づいています。
+`turnSpeed` が小さすぎると、キャラクターは目標を旋回しながらも決して目標に当たりません。
+与えられた移動速度に必要なターン速度を計算するために、わざわざ計算をしていませんでした。推測しただけです。
 
-We also added a global `moveSpeed` and based a `turnSpeed` on the move speed.
-The turn speed is based on the move speed to try to make sure a character
-can turn sharply enough to meet its target. If `turnSpeed` so too small
-a character will turn around and around circling its target but never
-hitting it. I didn't bother to do the math to calculate the required
-turn speed for a given move speed. I just guessed.
-
-The code so far would work but if the player runs off the screen there's no
-way to find out where they are. Let's make it so if they are offscreen
-for more than a certain time they get teleported back to the origin.
-We can do that by using the three.js `Frustum` class to check if a point
-is inside the camera's view frustum.
-
-We need to build a frustum from the camera. We could do this in the Player
-component but other objects might want to use this too so let's add another
-gameobject with a component to manage a frustum.
+これまでのコードでは動作しますが、プレイヤーが画面外に出てしまった場合にどこにいるのかを確認する方法がありません。
+一定時間以上、画面外にいるとテレポートされて元の場所に戻るようにしましょう。
+これを行うにはthree.jsの `Frustum` クラスを使い、点がカメラのビューの錐台内にいるかチェックします。
+カメラから錐台を作る必要があります。
+これをPlayerコンポーネントで行う事ができますが、他のオブジェクトもこれを使いたいかもしれないので、
+錐台を管理するコンポーネントを持つ別のゲームオブジェクトを追加してみましょう。
 
 ```js
 class CameraInfo extends Component {
@@ -970,7 +964,7 @@ class CameraInfo extends Component {
 }
 ```
 
-Then let's setup another gameobject at init time.
+init時に別のゲームオブジェクトを設定してみましょう。
 
 ```js
 function init() {
@@ -992,7 +986,7 @@ function init() {
 }
 ```
 
-and now we can use it in the `Player` component.
+これを `Player` コンポーネントで使う事ができるようになりました。
 
 ```js
 class Player extends Component {
@@ -1027,8 +1021,8 @@ class Player extends Component {
 }
 ```
 
-One more thing before we try it out, let's add touchscreen support
-for mobile. First let's add some HTML to touch
+試す前にもう1つ、モバイルのタッチスクリーン対応を追加しておきましょう。
+まず、HTMLを追加してタッチしてみましょう。
 
 ```html
 <body>
@@ -1047,7 +1041,7 @@ for mobile. First let's add some HTML to touch
 </body>
 ```
 
-and some CSS to style it
+いくつかのCSSでスタイルを整えます。
 
 ```css
 #ui {
@@ -1082,13 +1076,11 @@ and some CSS to style it
 }
 ```
 
-The idea here is there is one div, `#ui`, that 
-covers the entire page. Inside will be 2 divs, `#left` and `#right`
-both of which are almost half the page wide and the entire screen tall.
-In between there is a 40px separator. If the user slides their finger
-over the left or right side then we need up update `keys.left` and `keys.right`
-in the `InputManager`. This makes the entire screen sensitive to being touched
-which seemed better than just small arrows.
+ここでの考え方は、ページ全体をカバーするdiv `#ui` が1つあります。
+内部には2つのdiv、`#left` と `#right` があり、どちらもページ幅のほぼ半分、画面全体の高さがあります。
+その間には40pxの区切りがあります。
+ユーザーが指を左右にスライドさせた場合、`InputManager` の `keys.left` と `keys.right` を更新する必要があります。
+これにより画面全体がタッチされてることに敏感になり、ただの小さな矢印よりも良いように思えました。
 
 ```js
 class InputManager {
@@ -1199,17 +1191,14 @@ class InputManager {
 }
 ```
 
-And now we should be able to control the character with the left and right
-cursor keys or with our fingers on a touchscreen
+そしてタッチスクリーン上で指で左右のカーソルキーやキャラクターを操作できるようになっています。
 
 {{{example url="../threejs-game-player-input.html"}}}
 
-Ideally we'd do something else if the player went off the screen like move
-the camera or maybe offscreen = death but this article is already going to be
-too long so for now teleporting to the middle was the simplest thing.
+理想的にはプレイヤーがカメラを移動させたり、オフスクリーン = プレイヤーの死亡のように画面外に出た場合に何か他の事をしたいですが、この記事が長くなりそうなので、真ん中にテレポートする事が最も簡単でした。
 
-Lets add some animals. We can start it off similar to the `Player` by making
-an `Animal` component.
+いくつかの動物を追加してみましょう。
+まず、`Animal` コンポーネントを作る事で `Player` と同様に始められます。
 
 ```js
 class Animal extends Component {
@@ -1222,11 +1211,10 @@ class Animal extends Component {
 }
 ```
 
-The code above sets the `AnimationMixer.timeScale` to set the playback
-speed of the animations relative to the move speed. This way if we
-adjust the move speed the animation will speed up or slow down as well.
+上記のコードでは `AnimationMixer.timeScale` を設定し、移動速度に対するアニメーションの再生速度を設定しています。
+このように移動速度を調整すると、アニメーションの速度が速くなったり遅くなったりします。
 
-To start we could setup one of each type of animal
+最初にそれぞれの動物の種類を設定できます。
 
 ```js
 function init() {
@@ -1263,36 +1251,33 @@ function init() {
 }
 ```
 
-And that would get us animals standing on the screen but we want them to do
-something.
+そうすると動物たちが画面に立っているけど、何かしてもらいたいですね。
 
-Let's make them follow the player in a conga line but only if the player gets near enough.
-To do this we need several states.
+コンガのラインの中でプレイヤーの後を追わせてみましょう。
+ただし、プレイヤーが十分に近づいた場合に限ります。
+そのためにはいくつかの状態が必要です。
 
-* Idle:
+* アイドル:
 
-  Animal is waiting for player to get close
+  動物はプレイヤーが近づくまで待っています
 
-* Wait for End of Line:
+* 終点待ち:
 
-  Animal was tagged by player but now needs to wait for the animal
-  at the end of the line to come by so they can join the end of the line.
+  動物はプレイヤーによってタグ付けされましたが、ラインの端に参加できるようにラインの端に来て動物を待つ必要があります。
 
-* Go to Last:
+* 終点へ行く:
 
-  Animal needs to walk to where the animal they are following was, at the same time recording
-  a history of where the animal they are following is currently.
+  動物は追っている動物が現在いる場所の履歴を記録すると同時に、追っている動物がいた場所まで歩く必要があります。
 
-* Follow
+* 尾行する:
 
-  Animal needs to keep recording a history of where the animal they are following is while
-  moving to where the animal they are following was before.
+  動物は追っている動物が以前いた場所に移動しながら、追っている動物がどこにいるかの履歴を記録しておく必要があります。
 
-There are many ways to handle different states like this. A common one is to use
-a [Finite State Machine](https://www.google.com/search?q=finite+state+machine) and
-to build some class to help us manage the state.
+このように様々な状態に対応する方法があります。
+一般的には[有限状態マシン](https://www.google.com/search?q=finite+state+machine)と
+状態を管理するためのクラスを作成します。
 
-So, let's do that.
+つまり、それを作成しましょう。
 
 ```js
 class FiniteStateMachine {
@@ -1323,15 +1308,15 @@ class FiniteStateMachine {
 }
 ```
 
-Here's a simple class. We pass it an object with a bunch of states.
-Each state as 3 optional functions, `enter`, `update`, and `exit`.
-To switch states we call `FiniteStateMachine.transition` and pass it
-the name of the new state. If the current state has an `exit` function
-it's called. Then if the new state has an `enter` function it's called.
-Finally each frame `FiniteStateMachine.update` calls the `update` function
-of the current state.
+ここに簡単なクラスがあります。
+たくさんの状態を持つオブジェクトを渡します。
+それぞれの状態は `enter`、`update`、`exit` の3つのオプション関数で構成されています。
+状態を切り替えるには、`FiniteStateMachine.transition` を呼び出し、新しい状態の名前を渡します。
+現在の状態に `exit` 関数がある場合、それが呼び出されます。
+新しい状態に `enter` 関数がある場合、それが呼び出されます。
+最後に各フレームの `FiniteStateMachine.update` は現在の状態の `update` 関数を呼び出します。
 
-Let's use it to manage the states of the animals.
+動物の状態を管理するのに使いましょう。
 
 ```js
 // Returns true of obj1 and obj2 are close
@@ -1454,12 +1439,11 @@ class Animal extends Component {
 }
 ```
 
-That was big chunk of code but it does what was described above.
-Hopefully of you walk through each state it will be clear.
+これは大きなコードの塊でしたが、上記で説明したような状態管理をしてくれます。
+上手くいけばそれぞれの状態が遷移できて、現在はどの状態か明らかになるでしょう。
 
-A few things we need to add. We need the player to add itself
-to the globals so the animals can find it and we need to start the
-conga line with the player's `GameObject`.
+追加しなければならないものがいくつかあります。
+動物が見つけられるようにプレイヤー自身をグローバルに追加し、プレイヤーの `GameObject` でコンガラインを開始する必要があります。
 
 ```js
 function init() {
@@ -1475,7 +1459,7 @@ function init() {
 }
 ```
 
-We also need to compute a size for each model
+また、各モデルのサイズを計算する必要があります。
 
 ```js
 function prepModelsAndAnimations() {
@@ -1498,7 +1482,7 @@ function prepModelsAndAnimations() {
 }
 ```
 
-And we need the player to record their size
+そして、プレイヤーが動物達のサイズを記録する必要があります。
 
 ```js
 class Player extends Component {
